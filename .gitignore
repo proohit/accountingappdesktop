@@ -4,6 +4,10 @@
 #databases
 *.db
 
+#configuration
+.project
+.classpath
+
 # Log file
 *.log
 
