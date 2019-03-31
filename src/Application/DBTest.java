@@ -1,13 +1,11 @@
 package Application;
 
 import DBConnection.*;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 public class DBTest {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		DBManager db = new DBManager();
 		db.createDB("Accounting");
 		String[] cols = { "id","name"};
