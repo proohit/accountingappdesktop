@@ -21,13 +21,13 @@ public class DBConnection {
 	public static boolean connected() {
 		return conn != null? true: false;
 	}
-	public static Statement newStatement() {
+	public static Statement newStatement() throws SQLException {
 			try {
 			return conn.createStatement();
 			} catch(SQLException e) {
 				e.printStackTrace();
 				System.out.println("Couldn't create Statement");
-				return null;
+				throw new SQLException();
 			}
 	
 	}
