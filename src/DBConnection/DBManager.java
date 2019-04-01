@@ -2,9 +2,10 @@ package DBConnection;
 
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 public class DBManager {
 	String name;
@@ -37,9 +38,24 @@ public class DBManager {
 		}
 		executeStatement(sql);
 	}
-	//creates an empty table with tableName
-	public static void createTable(String tableName) {
-		String sql = "CREATE TABLE IF NOT EXISTS " + tableName;
+
+	// creates an empty table with tableName
+	public static void createTable(String tableName, Hashtable<String, String> columns, String[] primaryKeys) throws SQLException {
+		String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(";
+		Iterator<String> iterator = columns.keySet().iterator();
+		while (iterator.hasNext()) {
+			Object nextObject = iterator.next();
+			sql += nextObject.toString() + " " + columns.get(nextObject) + ", ";
+		}
+		sql += "PRIMARY KEY(";
+		for (int i = 0; i < primaryKeys.length; i++) {
+			sql += primaryKeys[i];
+			if (i < primaryKeys.length - 1)
+				sql += ", ";
+		}
+		sql += "));";
+
+		executeStatement(sql);
 	}
 
 	public static void executeStatement(String sql) {
@@ -65,7 +81,7 @@ public class DBManager {
 		try {
 			ResultSet tables = DBConnection.conn.getMetaData().getTables(null, null, "%", null);
 			ArrayList<String> tableNames = new ArrayList<String>();
-			for (int i = 0; tables.next(); i++) {
+			while (tables.next()) {
 				tableNames.add(tables.getString(3));
 			}
 			return tableNames;
@@ -77,9 +93,11 @@ public class DBManager {
 
 	public static void printTables() {
 		try {
+
 			ArrayList<String> tables = tables();
+			System.out.println("Tables:");
 			for (String name : tables) {
-				System.out.print(name + " ");
+				System.out.println(name);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -87,12 +105,4 @@ public class DBManager {
 
 	}
 
-	public static void printTable(String tableName) {
-		String sql = "SELECT * FROM " + tableName + ";";
-		try {
-			ResultSet rs = selectStmt(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 }
