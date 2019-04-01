@@ -6,16 +6,15 @@ import java.util.ArrayList;
 public class DBTest {
 
 	public static void main(String[] args) {
-		DBManager db = new DBManager();
-		db.createDB("Accounting");
+		DBManager.createDB("Accounting");
 		String[] cols = { "id","name"};
 		String[] colType = { "int","varchar"};
-		db.executeStatement("DROP TABLE IF EXISTS Test;");
-		db.createTable("Test", cols, colType, "id");
-		db.executeStatement("INSERT INTO Test(name) VALUES('test');");
+		DBManager.executeStatement("DROP TABLE IF EXISTS Test;");
+		DBManager.createTable("Test", cols, colType, "id");
+		DBManager.executeStatement("INSERT INTO Test(name) VALUES('test');");
 		//db.createTable("test", cols, colType, "id");
 		try {
-		ArrayList<String> tables = db.tables();
+		ArrayList<String> tables = DBManager.tables();
 		for (String name:tables) {
 			System.out.print(name + " ");
 		}

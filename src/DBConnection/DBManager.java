@@ -7,14 +7,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 public class DBManager {
 	String name;
-	DBConnection connecter;
-
-	public void createDB(String dbName) {
-		connecter = new DBConnection();
-		if (!connecter.connected()) {
+	public static void createDB(String dbName) {
+		
+		if (!DBConnection.connected()) {
 			try {
-				connecter.connect(dbName);
-				DatabaseMetaData meta = connecter.conn.getMetaData();
+				DBConnection.connect(dbName);
+				DatabaseMetaData meta = DBConnection.conn.getMetaData();
 				System.out.println("The driver name is " + meta.getDriverName());
 
 			} catch (SQLException e) {
@@ -24,7 +22,7 @@ public class DBManager {
 		}
 	}
 
-	public void createTable(String tableName, String cols[], String colType[], String primKey) {
+	public static void createTable(String tableName, String cols[], String colType[], String primKey) {
 		String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(\n";
 		if (cols.length != colType.length) {
 			System.out.println("ERROR: column array doesnt match column type array");
@@ -37,9 +35,9 @@ public class DBManager {
 		}
 		executeStatement(sql);
 	}
-	public void executeStatement(String sql) {
+	public static void executeStatement(String sql) {
 		try {
-			System.out.println(connecter.newStatement().executeUpdate(sql)+ " "
+			System.out.println(DBConnection.newStatement().executeUpdate(sql)+ " "
 					+ "rows affected.");
 			System.out.println("executed query:" + sql);
 		} catch (SQLException e) {
@@ -47,17 +45,17 @@ public class DBManager {
 			System.out.println("Couldn't execute Query");
 		}
 	}
-	public ResultSet selectStmt(String sql) throws SQLException{
+	public static ResultSet selectStmt(String sql) throws SQLException{
 		try {
-			return connecter.newStatement().executeQuery(sql);
+			return DBConnection.newStatement().executeQuery(sql);
 		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new SQLException();
 		}
 	}
-	public ArrayList<String> tables() throws SQLException{
+	public static ArrayList<String> tables() throws SQLException{
 		try {
-			ResultSet tables = connecter.conn.getMetaData().getTables(null, null, "%", null);
+			ResultSet tables = DBConnection.conn.getMetaData().getTables(null, null, "%", null);
 			ArrayList<String> tableNames = new ArrayList<String>();
 			for(int i = 0; tables.next();i++) {
 				tableNames.add(tables.getString(3));
