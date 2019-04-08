@@ -45,17 +45,45 @@ public class DBManager {
 		executeStatement(sql);
 	}
 
-	public String getForeignSql(String[] foreignKeys, String refTable) {
-		String sql = "FOREIGN KEY(";
-		for(int i =0;i<foreignKeys.length;i++) {
-			sql+=foreignKeys[i];
-			if(i<foreignKeys.length-1) {
-				sql+= ", ";
+	public static void createTable(String tableName, Hashtable<String, String> columns, ArrayList<String> primaryKeys,ArrayList<String> foreignKeys,ArrayList<String> refTables)
+			throws SQLException {
+		String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(";
+		Iterator<String> iterator = columns.keySet().iterator();
+		while (iterator.hasNext()) {
+			Object nextObject = iterator.next();
+			sql += nextObject.toString() + " " + columns.get(nextObject) + ", ";
+		}
+		sql += "PRIMARY KEY(";
+		for (int i = 0; i < primaryKeys.size(); i++) {
+			sql += primaryKeys.get(i);
+			if (i < primaryKeys.size() - 1)
+				sql += ", ";
+		}
+		sql += "),";
+		//hier implementierung von getforeignsql fehlt noch, hard coded!!!!!!!!
+			sql+=getForeignSql(foreignKeys, refTables.get(0));
+			sql+=");";
+		executeStatement(sql);
+	}
+
+	// interne methode zum zurückgeben von foreign key + references abschnitt
+	private static String getForeignSql(ArrayList<String> foreignKeys, String refTable) {
+		String foreignkey = "FOREIGN KEY(";
+		String reference = "REFERENCES " + refTable + "(";
+		for (int i = 0; i < foreignKeys.size(); i++) {
+			foreignkey += foreignKeys.get(i);
+			reference+=foreignKeys.get(i);
+			if (i < foreignKeys.size() - 1) {
+				foreignkey += ", ";
+				reference+=", ";
 			}
 		}
-		sql+=") REFERENCES("+refTable+");";
-		return sql;
+		reference+=") ";
+		foreignkey+=") "+reference;
+		
+		return foreignkey;
 	}
+
 	public static void executeStatement(String sql) {
 		try {
 			System.out.println("executing query... " + sql);

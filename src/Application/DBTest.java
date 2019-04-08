@@ -3,6 +3,7 @@ package Application;
 import DBConnection.*;
 import DBTables.Record;
 import DBTables.Table;
+import DBTables.Wallet;
 
 import java.util.Hashtable;
 
@@ -16,16 +17,13 @@ public class DBTest {
 		testHashtable.put("description", "bahn");
 		testHashtable.put("value", "bahn");
 		// String[] primKeyStrings = {"id"};
-		Record recordTable = new Record();
-		// DBManager.createTable("Test", cols, colType, "id");
-		// DBManager.executeStatement("INSERT INTO Record(id, description, value)
-		// VALUES(1,'bahn','-5');");
-		// DBManager.executeStatement("INSERT INTO Record(id, description, value)
-		// VALUES(2,'einkaufen','-15');");
-		// DBManager.executeStatement("INSERT INTO Record(id, description, value)
-		// VALUES(3,'essen',-10);");
-		recordTable.insertValues(1, "bahn", -5, 2019, 3);
-		recordTable.insertValues(2, "einkaufen", -15, 2019, 3);
+		Wallet walletTable = new Wallet();
+		Record recordTable=new Record();
+//		DBManager.executeStatement("CREATE TABLE IF NOT EXISTS Record(recordId int, description varchar, value double, walletId int, PRIMARY KEY(recordId), FOREIGN KEY(walletId) REFERENCES Wallet(walletId));");
+//		Record recordTable = new Record();
+//		
+		recordTable.insertValues(1, "bahn", -5, 2019, 3,0);
+		recordTable.insertValues(2, "einkaufen", -15, 2019, 3,0);
 		DBManager.printTables();
 		recordTable.printRows();
 	}

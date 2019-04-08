@@ -11,14 +11,15 @@ public class Record extends Table {
 		columns.put("recordId", "int");
 		columns.put("description", "varchar");
 		columns.put("value", "double");
+		columns.put("walletId", "int");
+		
 		columns.put("year", "int");
 		columns.put("month", "int");
 		tableName = "Record";
 		primaryKeys = new ArrayList<String>();
 		primaryKeys.add("recordId");
 		foreignKeys = new ArrayList<String>();
-		foreignKeys.add("year");
-		foreignKeys.add("month");
+		foreignKeys.add("walletId");
 		refTables = new ArrayList<String>();
 		refTables.add("Wallet");
 		try {
@@ -28,9 +29,9 @@ public class Record extends Table {
 		}
 	}
 
-	public void insertValues(int id, String description, double value, int year, int month) {
-		String sql = "INSERT INTO " + tableName + "(recordId, description, value, year, month) VALUES(" + id + "," + "'"
-				+ description + "'" + "," + value + "," + year + "," + month + ");";
+	public void insertValues(int id, String description, double value, int year, int month, int walletid) {
+		String sql = "INSERT INTO " + tableName + "(recordId, description, value, year, month, walletId) VALUES(" + id + "," + "'"
+				+ description + "'" + "," + value + "," + year + "," + month + ","+walletid+");";
 		DBManager.executeStatement(sql);
 	}
 }
