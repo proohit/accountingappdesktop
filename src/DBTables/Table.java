@@ -20,17 +20,6 @@ public abstract class Table {
 
 	}
 
-	/*
-	 * public void insertValues(Hashtable<String, String> values) { String sql =
-	 * "INSERT INTO " + tableName + "("; Iterator<String> iterator =
-	 * columns.keySet().iterator(); int i=1; while(iterator.hasNext()) {
-	 * sql+=iterator.next().toString(); if(i <columns.size()) { sql+=", "; } } i=1;
-	 * sql+=") VALUES("; Iterator<String> iterator2=values.keySet().iterator();
-	 * while(iterator2.hasNext()) { sql+=iterator2.next().toString(); if(i
-	 * <columns.size()) { sql+=", "; } } sql+=");"; DBManager.executeStatement(sql);
-	 * }
-	 */
-
 	public void printRows() {
 		String sql = "SELECT * FROM " + tableName + ";";
 		try {

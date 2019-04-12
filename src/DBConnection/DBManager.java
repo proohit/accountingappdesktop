@@ -7,13 +7,19 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import DBTables.Table;
+import com.sun.org.glassfish.gmbal.Description;
+import com.sun.xml.internal.bind.v2.runtime.Name;
 
+import DBTables.Table;
+/*
+ * Verbindung zwischen Datenbank und Applikation
+ * verfügt über Möglichkeiten Queries an die Datenbank zu senden
+ */
 public class DBManager {
-	String name;
+	static String name;
 
 	public static void createDB(String dbName) {
-
+		name= dbName;
 		if (!DBConnection.connected()) {
 			try {
 				DBConnection.connect(dbName);
@@ -26,7 +32,18 @@ public class DBManager {
 			}
 		}
 	}
-
+	private void tryConnection() {
+		if(!DBConnection.connected() && name !=null) {
+			try {
+				DBConnection.connect(name);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+/*
+ * Methode zum erstellen einer Tabelle ohne Fremdschlüssel
+ */
 	public static void createTable(String tableName, Hashtable<String, String> columns, ArrayList<String> primaryKeys)
 			throws SQLException {
 		String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(";
@@ -44,7 +61,9 @@ public class DBManager {
 		sql += "));";
 		executeStatement(sql);
 	}
-
+	/*
+	 * Methode zum Erstellen einer Tabelle mit Primärschlüsseln und Fremdschlüsseln in der geöffneten Datenbank
+	 */
 	public static void createTable(String tableName, Hashtable<String, String> columns, ArrayList<String> primaryKeys,ArrayList<String> foreignKeys,ArrayList<String> refTables)
 			throws SQLException {
 		String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(";
@@ -83,7 +102,9 @@ public class DBManager {
 		
 		return foreignkey;
 	}
-
+	/*
+	 * Methode zum Ausführen eines Strings in SQL
+	 */
 	public static void executeStatement(String sql) {
 		try {
 			System.out.println("executing query... " + sql);
@@ -93,7 +114,9 @@ public class DBManager {
 			System.out.println("Couldn't execute Query");
 		}
 	}
-
+	/*
+	 * Methode zum Ausführen eines SELECT Strings in SQL
+	 */
 	public static ResultSet selectStmt(String sql) throws SQLException {
 		try {
 			return DBConnection.newStatement().executeQuery(sql);
@@ -102,7 +125,9 @@ public class DBManager {
 			throw new SQLException();
 		}
 	}
-
+	/*
+	 * Methode zum Abgreifen der Namen der Relationen in einer ArrayList
+	 */
 	public static ArrayList<String> tables() throws SQLException {
 		try {
 			ResultSet tables = DBConnection.conn.getMetaData().getTables(null, null, "%", null);
@@ -116,7 +141,9 @@ public class DBManager {
 			throw new SQLException();
 		}
 	}
-
+	/*
+	 * Methode zum Ausgeben aller Tabellennamen in der geöffneten Datenbank
+	 */
 	public static void printTables() {
 		try {
 
