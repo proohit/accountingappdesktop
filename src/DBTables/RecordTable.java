@@ -20,16 +20,14 @@ public class RecordTable extends Table {
 
     public void insertValues(Record record) {
 	String sql = "INSERT INTO " + tableName + "("
-		+ "recordId,"
 		+ "description,"
 		+ "value,"
 		+ "timestamp,"
 		+ "walletName)"
-		+ "VALUES("
-		+ record.getId() + ",'"
+		+ "VALUES('"
 		+ record.getDescription() + "',"
 		+ record.getValue() + ","
-		+ record.getTimestamp() + ","
+		+ "strftime('%Y.%m.%d-%H:%M:%S')" + ", '"
 		+ record.getWallet() + "');";
 	DBManager.executeStatement(sql);
 	DBManager.executeStatement(
@@ -46,9 +44,10 @@ public class RecordTable extends Table {
     }
 
     public void createTable() {
-	DBManager.executeStatement("CREATE TABLE IF NOT EXISTS Record (" + "recordId int AUTO INCREMENT,"
-		+ "description varchar," + "value double," + "walletName varchar," + "timestamp smalldatetime,"
-		+ "PRIMARY KEY(recordId)," + "FOREIGN KEY(walletName) REFERENCES Wallet(name));");
+	DBManager.executeStatement("CREATE TABLE IF NOT EXISTS Record ("
+			+ "recordId INTEGER PRIMARY KEY,"
+			+ "description varchar," + "value double," + "walletName varchar," + "timestamp smalldatetime,"
+			+ "FOREIGN KEY(walletName) REFERENCES Wallet(name));");
     }
 
     public ArrayList<Record> selectAll() throws SQLException {

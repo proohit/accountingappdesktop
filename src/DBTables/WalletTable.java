@@ -3,8 +3,8 @@ package DBTables;
 import DBConnection.DBManager;
 import DBTables.Table;
 
-public class WalletTabĺe extends Table {
-	public WalletTabĺe() {
+public class WalletTable extends Table {
+	public WalletTable() {
 		super();
 		tableName = "Wallet";
 		columns.put("name", "varchar");

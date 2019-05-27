@@ -1,11 +1,10 @@
 package Application;
 
-import java.sql.Date;
 import java.util.Calendar;
 
 import DBConnection.*;
 import DBTables.RecordTable;
-import DBTables.WalletTabĺe;
+import DBTables.WalletTable;
 import data.Record;
 
 public class DBTest {
@@ -13,7 +12,7 @@ public class DBTest {
     public static void main(String[] args) {
 	try {
 	    DBManager.createDB("Accounting");
-	    WalletTabĺe walletTable = new WalletTabĺe();
+	    WalletTable walletTable = new WalletTable();
 	    RecordTable recordTable = new RecordTable();
 
 	    recordTable.deleteTable();
@@ -22,10 +21,13 @@ public class DBTest {
 	    walletTable.createTable();
 	    walletTable.insertValue("Konto", 50);
 	    walletTable.printRows();
-	    Record rec1 = new Record(Calendar.getInstance().getTime().toString(),3,"essen",-10,"Konto");
-recordTable.insertValues(rec1);
-	    recordTable.insertValues(1, "bahn", -5, "Konto");
-	    recordTable.insertValues(2, "einkaufen", -15, "Konto");
+	    Record rec1 = new Record("essen",-10,"Konto");
+	    Record rec2 = new Record("bahn", -15, "Konto");
+	    Record rec3 = new Record("einkaufenm", -5, "Konto");
+	    recordTable.insertValues(rec1);
+	    recordTable.insertValues(rec2);
+	    recordTable.insertValues(rec3);
+	    
 	    DBManager.debugOn();
 	    DBManager.printTables();
 //		recordTable.printRows();
