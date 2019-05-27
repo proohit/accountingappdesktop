@@ -9,7 +9,7 @@ import java.util.Iterator;
 
 /*
  * Verbindung zwischen Datenbank und Applikation
- * verfügt über Möglichkeiten Queries an die Datenbank zu senden
+ * verfÃ¼gt Ã¼ber MÃ¶glichkeiten Queries an die Datenbank zu senden
  */
 public class DBManager {
 	static String name;
@@ -39,7 +39,7 @@ public class DBManager {
 	}
 
 	/*
-	 * Methode zum erstellen einer Tabelle ohne Fremdschlüssel
+	 * Methode zum erstellen einer Tabelle ohne Fremdschlï¿½ssel
 	 */
 	public static void createTable(String tableName, Hashtable<String, String> columns, ArrayList<String> primaryKeys)
 			throws SQLException {
@@ -59,8 +59,8 @@ public class DBManager {
 		executeStatement(sql);
 	}
 	/*
-	 * Methode zum Erstellen einer Tabelle mit Primärschlüsseln und Fremdschlüsseln
-	 * in der geöffneten Datenbank
+	 * Methode zum Erstellen einer Tabelle mit Primï¿½rschlï¿½sseln und Fremdschlï¿½sseln
+	 * in der geï¿½ffneten Datenbank
 	 */
 //	public static void createTable(String tableName, Hashtable<String, String> columns, ArrayList<String> primaryKeys,ArrayList<String> foreignKeys,String[][] refTables)
 //			throws SQLException {
@@ -86,7 +86,7 @@ public class DBManager {
 //		executeStatement(sql);
 //	}
 
-	// interne methode zum zurückgeben von foreign key + references abschnitt
+	// interne methode zum zurï¿½ckgeben von foreign key + references abschnitt
 	private static String getForeignSql(String[] foreignKeys, String refTable) {
 		String foreignkey = "FOREIGN KEY(";
 		String reference = "REFERENCES " + refTable + "(";
@@ -105,7 +105,7 @@ public class DBManager {
 	}
 
 	/*
-	 * Methode zum Ausführen eines Strings in SQL
+	 * Methode zum Ausfuehren eines Strings in SQL
 	 */
 	public static void executeStatement(String sql) {
 		try {
@@ -118,7 +118,7 @@ public class DBManager {
 	}
 
 	/*
-	 * Methode zum Ausführen eines SELECT Strings in SQL
+	 * Methode zum Ausfuehren eines SELECT Strings in SQL
 	 */
 	public static ResultSet selectStmt(String sql) throws SQLException {
 		return DBConnection.newStatement().executeQuery(sql);
@@ -137,7 +137,7 @@ public class DBManager {
 	}
 
 	/*
-	 * Methode zum Ausgeben aller Tabellennamen in der geöffneten Datenbank
+	 * Methode zum Ausgeben aller Tabellennamen in der geoeffneten Datenbank
 	 */
 	public static void printTables() {
 		try {

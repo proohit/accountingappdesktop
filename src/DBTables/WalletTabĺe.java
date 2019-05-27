@@ -1,13 +1,10 @@
 package DBTables;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import DBConnection.DBManager;
 import DBTables.Table;
 
-public class Wallet extends Table {
-	public Wallet() {
+public class WalletTabĺe extends Table {
+	public WalletTabĺe() {
 		super();
 		tableName = "Wallet";
 		columns.put("name", "varchar");
