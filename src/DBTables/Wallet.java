@@ -9,17 +9,17 @@ import DBTables.Table;
 public class Wallet extends Table {
 	public Wallet() {
 		super();
-		columns.put("walletId", "int");
+		tableName = "Wallet";
 		columns.put("name", "varchar");
 		columns.put("balance", "double");
-		tableName="Wallet";
-		primaryKeys = new ArrayList<String>();
-		primaryKeys.add("walletId");
-		
-		try {
-			DBManager.createTable(tableName, columns, primaryKeys);
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
+	}
+	public void createTable() {
+		DBManager.executeStatement("CREATE TABLE IF NOT EXISTS Wallet ("
+				+ "name varchar,"
+				+ "balance double,"
+				+ "PRIMARY KEY(name));");
+	}
+	public void insertValue(String name, double balance) {
+		DBManager.executeStatement("INSERT INTO Wallet(name, balance) VALUES(" + "'" + name + "'," + balance + ");");
 	}
 }

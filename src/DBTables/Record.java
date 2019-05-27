@@ -8,30 +8,28 @@ import DBConnection.DBManager;
 public class Record extends Table {
 	public Record() {
 		super();
+		tableName = "Record";
 		columns.put("recordId", "int");
 		columns.put("description", "varchar");
 		columns.put("value", "double");
-		columns.put("walletId", "int");
-		
-		columns.put("year", "int");
-		columns.put("month", "int");
-		tableName = "Record";
-		primaryKeys = new ArrayList<String>();
-		primaryKeys.add("recordId");
-		foreignKeys = new ArrayList<String>();
-		foreignKeys.add("walletId");
-		refTables = new ArrayList<String>();
-		refTables.add("Wallet");
-		try {
-			DBManager.createTable("Record", columns, primaryKeys, foreignKeys, refTables);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		columns.put("walletName", "varchar");
+		columns.put("timestamp", "smalldatetime");
 	}
-
-	public void insertValues(int id, String description, double value, int year, int month, int walletid) {
-		String sql = "INSERT INTO " + tableName + "(recordId, description, value, year, month, walletId) VALUES(" + id + "," + "'"
-				+ description + "'" + "," + value + "," + year + "," + month + ","+walletid+");";
+	
+	public void insertValues(int id, String description, double value, String walletName) {
+		String sql = "INSERT INTO " + tableName + "(recordId, description, value, timestamp, walletName) VALUES(" + id + "," + "'"
+				+ description + "'" + "," + value + "," + "strftime('%Y.%m.%d-%H:%M:%S'), '" + walletName + "');";
 		DBManager.executeStatement(sql);
+		DBManager.executeStatement("UPDATE Wallet SET balance=balance+"+value+" WHERE name=" + "'" + walletName + "';");
+	}
+	public void createTable() {
+		DBManager.executeStatement("CREATE TABLE IF NOT EXISTS Record ("
+				+ "recordId int AUTO INCREMENT,"
+				+ "description varchar,"
+				+ "value double,"
+				+ "walletName varchar,"
+				+ "timestamp smalldatetime,"
+				+ "PRIMARY KEY(recordId),"
+				+ "FOREIGN KEY(walletName) REFERENCES Wallet(name));");
 	}
 }
