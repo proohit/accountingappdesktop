@@ -9,7 +9,7 @@ import java.util.Iterator;
 
 /*
  * Verbindung zwischen Datenbank und Applikation
- * verfügt über Möglichkeiten Queries an die Datenbank zu senden
+ * verfuegt ueber Moeglichkeiten Queries an die Datenbank zu senden
  */
 public class DBManager {
 	static String name;
@@ -39,7 +39,7 @@ public class DBManager {
 	}
 
 	/*
-	 * Methode zum erstellen einer Tabelle ohne Fremdschl�ssel
+	 * Methode zum erstellen einer Tabelle ohne Fremdschluessel
 	 */
 	public static void createTable(String tableName, Hashtable<String, String> columns, ArrayList<String> primaryKeys)
 			throws SQLException {
@@ -59,8 +59,8 @@ public class DBManager {
 		executeStatement(sql);
 	}
 	/*
-	 * Methode zum Erstellen einer Tabelle mit Prim�rschl�sseln und Fremdschl�sseln
-	 * in der ge�ffneten Datenbank
+	 * Methode zum Erstellen einer Tabelle mit Primaerschluesseln und Fremdschluesseln
+	 * in der geoeffneten Datenbank
 	 */
 //	public static void createTable(String tableName, Hashtable<String, String> columns, ArrayList<String> primaryKeys,ArrayList<String> foreignKeys,String[][] refTables)
 //			throws SQLException {
@@ -86,7 +86,7 @@ public class DBManager {
 //		executeStatement(sql);
 //	}
 
-	// interne methode zum zur�ckgeben von foreign key + references abschnitt
+	// interne methode zum zurueckgeben von foreign key + references abschnitt
 	private static String getForeignSql(String[] foreignKeys, String refTable) {
 		String foreignkey = "FOREIGN KEY(";
 		String reference = "REFERENCES " + refTable + "(";
