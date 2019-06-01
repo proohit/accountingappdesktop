@@ -67,10 +67,6 @@ public class Record {
 				+ getSeconds();
 	}
 
-	public void print() {
-		System.out.println(toString());
-	}
-
 	public int getYear() {
 		return timestamp.get(Calendar.YEAR);
 	}

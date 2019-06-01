@@ -107,14 +107,9 @@ public class DBManager {
 	/*
 	 * Methode zum Ausfuehren eines Strings in SQL
 	 */
-	public static void executeStatement(String sql) {
-		try {
+	public static void executeStatement(String sql) throws SQLException {
 			log("executing query... " + sql);
 			log(DBConnection.newStatement().executeUpdate(sql) + " " + "rows affected.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			log("Couldn't execute Query");
-		}
 	}
 
 	/*
