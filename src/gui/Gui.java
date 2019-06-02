@@ -42,7 +42,7 @@ public class Gui extends Application {
 	ListView<String> list;
 	GridPane recordsGrid;
 	GridPane border;
-
+	VBox months;
 	@Override
 	public void start(Stage stage) throws Exception {
 		// TODO Auto-generated method stub
@@ -55,14 +55,15 @@ public class Gui extends Application {
 		stage.setTitle("Accounting App");
 		stage.setScene(new Scene(spPane));
 
-		Label wallets = new Label();
-		walletTable.getWallets().stream().forEach(wallet -> wallets.setText(wallets.getText() + wallet.toString()));
+//		Label wallets = new Label();
+//		walletTable.getWallets().stream().forEach(wallet -> wallets.setText(wallets.getText() + wallet.toString()));
 		spPane.setContent(border);
 		spPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		border.add(addBox(), 0, 0);
-		border.add(wallets, 1, 1);
-		border.add(addButton(), 2, 1);
-		border.add(editButton(), 3, 1);
+		months = addMonths();
+		border.add(months, 0, 0);
+		border.add(addWalletBox(), 1, 1);
+//		border.add(addButton(), 2, 1);
+//		border.add(editButton(), 3, 1);
 		border.add(recordsGrid, 1, 0);
 
 		stage.show();
@@ -88,7 +89,7 @@ public class Gui extends Application {
 				addPane.add(valueField, 1, 1);
 				addPane.add(walletLabel, 0, 2);
 				addPane.add(walletField, 1, 2);
-
+//				Parent root = FXMLLoader.load(getClass().getResource("AddEditWindow.fxml"));
 				Button okButton = new Button("OK");
 
 				Button cancelButton = new Button("Cancel");
@@ -111,12 +112,7 @@ public class Gui extends Application {
 								walletField.getText());
 						try {
 							recordTable.insertValues(record);
-							Label wallets = new Label();
-							border.getChildren().remove(getNodeFromGridPane(border, 0, 0));
-							border.getChildren().remove(getNodeFromGridPane(border, 1, 1));
-							walletTable.getWallets().stream().forEach(wallet -> wallets.setText(wallets.getText() + wallet.toString()));
-							border.add(addBox(), 0, 0);
-							border.add(wallets, 1, 1);
+							reloadWindow();
 							addWindow.hide();
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
@@ -205,12 +201,7 @@ public class Gui extends Application {
 									try {
 										recordTable.updateRecord(record, Double.parseDouble(valueField.getText()),
 												descriptionField.getText(), walletField.getText());
-										Label wallets = new Label();
-										border.getChildren().remove(getNodeFromGridPane(border, 0, 0));
-										border.getChildren().remove(getNodeFromGridPane(border, 1, 1));
-										walletTable.getWallets().stream().forEach(wallet -> wallets.setText(wallets.getText() + wallet.toString()));
-										border.add(addBox(), 0, 0);
-										border.add(wallets, 1, 1);
+										reloadWindow();
 										addWindow.hide();
 										editStage.hide();
 									} catch (SQLException e) {
@@ -253,7 +244,15 @@ public class Gui extends Application {
 
 	private HBox addWalletBox() {
 		HBox hbox = new HBox();
-
+		hbox.setSpacing(5);
+		try {
+			walletTable.getWallets().stream().forEach(wallet -> hbox.getChildren().add(new Label(wallet.toString())));
+			hbox.getChildren().add(addButton());
+			hbox.getChildren().add(editButton());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return hbox;
 	}
 
@@ -268,8 +267,7 @@ public class Gui extends Application {
 		description.setBackground(grayBg);
 		Label value = new Label("value");
 		value.setBackground(grayBg);
-
-		recordsGrid.setMinSize(720, 860);
+		
 		recordsGrid.setHgap(15);
 		recordsGrid.setPadding(new Insets(10, 50, 50, 50));
 
@@ -289,8 +287,18 @@ public class Gui extends Application {
 		}
 		return null;
 	}
-
-	private VBox addBox() {
+	private void reloadWindow() {
+		try {
+		border.getChildren().remove(getNodeFromGridPane(border, 0, 0));
+		months = addMonths();
+		border.add(months, 0, 0);
+		border.getChildren().remove(getNodeFromGridPane(border, 1, 1));
+		border.add(addWalletBox(), 1, 1);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	private VBox addMonths() {
 		try {
 			VBox vbox = new VBox();
 
