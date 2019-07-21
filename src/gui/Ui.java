@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import DBConnection.DBManager;
 import DBTables.RecordTable;
 import DBTables.WalletTable;
+import data.Record;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,7 +19,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -30,9 +34,7 @@ public class Ui extends Application {
 	BorderPane layout;
 	VBox months;
 	HBox wallets;
-	ScrollPane recordPane;
-	AnchorPane anchorPane;
-	GridPane records;
+	TableView<Record> records;
 	VBox operations;
 	HBox topOperations;
 	
@@ -45,13 +47,12 @@ public class Ui extends Application {
 		recordTable = new RecordTable();
 		walletTable = new WalletTable();
 		layout = new BorderPane();
+		records = recordGrid();
 		layout.setPrefSize(600, 400);
-		recordPane = new ScrollPane();
-		recordPane.setFitToWidth(true);
-		recordPane.setContent(recordGrid());
+		
 		layout.setLeft(monthsBox());
 		layout.setBottom(walletBox());
-		layout.setCenter(recordPane);
+		layout.setCenter(records);
 		layout.setRight(operationsBox());
 		stage.setScene(new Scene(layout));
 		stage.setTitle("Accounting App");
@@ -82,24 +83,32 @@ public class Ui extends Application {
 		
 		return wallets;
 	}
-	private GridPane recordGrid() {
-		records = new GridPane();
-		records.setHgap(10);
-		records.setVgap(10);
-		records.setGridLinesVisible(true);
+	private TableView<Record> recordGrid() {
+		records = new TableView<Record>();
+		
 		Label id = new Label("recordId");
 		Label description = new Label("description");
 		Label value = new Label("value");
-		records.add(id, 0, 0);
-		records.add(description, 1, 0);
-		records.add(value, 2, 0);
-		GridPane.setFillWidth(id, true);
-		GridPane.setFillWidth(description, true);
-		GridPane.setFillWidth(value, true);
-		GridPane.setHalignment(id, HPos.CENTER);
-		GridPane.setHalignment(description, HPos.CENTER);
-		GridPane.setHalignment(value, HPos.CENTER);
-		records.setAlignment(Pos.CENTER);
+		
+		TableColumn nameColumn = new TableColumn("Id");
+		nameColumn.setCellValueFactory(new PropertyValueFactory<>("Id"));
+
+		TableColumn surnameColumn = new TableColumn("Description");
+		surnameColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
+
+		TableColumn valueColumn = new TableColumn("Value");
+		surnameColumn.setCellValueFactory(new PropertyValueFactory<>("Value"));
+		
+		TableColumn walletColumn = new TableColumn("Wallet");
+		surnameColumn.setCellValueFactory(new PropertyValueFactory<>("Wallet"));
+		
+		
+		records.getColumns().addAll(nameColumn, surnameColumn, valueColumn, walletColumn);
+		
+		for(int i = 0; i<30; i++) {
+			records.getItems().add(new Record("test"+i, i, "Konto"));
+		}
+		
 		return records;
 	}
 	private VBox operationsBox() {
