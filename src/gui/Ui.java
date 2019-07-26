@@ -34,7 +34,7 @@ public class Ui extends Application {
 	BorderPane layout;
 	VBox months;
 	HBox wallets;
-	TableView<Record> records;
+	RecordsTableView records;
 	VBox operations;
 	HBox topOperations;
 	
@@ -47,7 +47,11 @@ public class Ui extends Application {
 		recordTable = new RecordTable();
 		walletTable = new WalletTable();
 		layout = new BorderPane();
-		records = recordGrid();
+		records = new RecordsTableView();
+		records.add(new Record("test123", 123, "Konto"));
+		records.add(new Record("test12123", 12123, "Konto"));
+		records.add(new Record("test121233", 12123, "Konto"));
+		
 		layout.setPrefSize(600, 400);
 		
 		layout.setLeft(monthsBox());
@@ -97,18 +101,14 @@ public class Ui extends Application {
 		surnameColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
 
 		TableColumn valueColumn = new TableColumn("Value");
-		surnameColumn.setCellValueFactory(new PropertyValueFactory<>("Value"));
+		valueColumn.setCellValueFactory(new PropertyValueFactory<>("Value"));
 		
 		TableColumn walletColumn = new TableColumn("Wallet");
-		surnameColumn.setCellValueFactory(new PropertyValueFactory<>("Wallet"));
+		walletColumn.setCellValueFactory(new PropertyValueFactory<>("Wallet"));
 		
 		
 		records.getColumns().addAll(nameColumn, surnameColumn, valueColumn, walletColumn);
-		
-		for(int i = 0; i<30; i++) {
-			records.getItems().add(new Record("test"+i, i, "Konto"));
-		}
-		
+
 		return records;
 	}
 	private VBox operationsBox() {
