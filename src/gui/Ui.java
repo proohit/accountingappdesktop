@@ -48,9 +48,6 @@ public class Ui extends Application {
 		walletTable = new WalletTable();
 		layout = new BorderPane();
 		records = new RecordsTableView();
-		records.add(new Record("test123", 123, "Konto"));
-		records.add(new Record("test12123", 12123, "Konto"));
-		records.add(new Record("test121233", 12123, "Konto"));
 		
 		layout.setPrefSize(600, 400);
 		
@@ -87,30 +84,7 @@ public class Ui extends Application {
 		
 		return wallets;
 	}
-	private TableView<Record> recordGrid() {
-		records = new TableView<Record>();
-		
-		Label id = new Label("recordId");
-		Label description = new Label("description");
-		Label value = new Label("value");
-		
-		TableColumn nameColumn = new TableColumn("Id");
-		nameColumn.setCellValueFactory(new PropertyValueFactory<>("Id"));
 
-		TableColumn surnameColumn = new TableColumn("Description");
-		surnameColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
-
-		TableColumn valueColumn = new TableColumn("Value");
-		valueColumn.setCellValueFactory(new PropertyValueFactory<>("Value"));
-		
-		TableColumn walletColumn = new TableColumn("Wallet");
-		walletColumn.setCellValueFactory(new PropertyValueFactory<>("Wallet"));
-		
-		
-		records.getColumns().addAll(nameColumn, surnameColumn, valueColumn, walletColumn);
-
-		return records;
-	}
 	private VBox operationsBox() {
 		operations = new VBox();
 		Hyperlink operationLabel = new Hyperlink("add record...");

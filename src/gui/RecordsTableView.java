@@ -20,6 +20,11 @@ public class RecordsTableView extends TableView<Record> {
 		valueColumn.setCellValueFactory(new PropertyValueFactory<Record, Double>("Value"));
 		walletColumn.setCellValueFactory(new PropertyValueFactory<Record, String>("Wallet"));
 		
+		idColumn.prefWidthProperty().bind(this.widthProperty().divide(4));
+		descriptionColumn.prefWidthProperty().bind(this.widthProperty().divide(4));
+		valueColumn.prefWidthProperty().bind(this.widthProperty().divide(4));
+		walletColumn.prefWidthProperty().bind(this.widthProperty().divide(4));
+		
 		this.getColumns().add(idColumn);
 		this.getColumns().add(descriptionColumn);
 		this.getColumns().add(valueColumn);
