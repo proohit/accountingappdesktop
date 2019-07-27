@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.net.DatagramSocket;
 import java.util.ArrayList;
 
+import com.sun.tools.sjavac.comp.dependencies.PublicApiCollector;
+
 import DBConnection.DBManager;
 import DBTables.RecordTable;
 import DBTables.WalletTable;
@@ -32,9 +34,9 @@ import javafx.stage.Stage;
 
 public class Ui extends Application {
 	BorderPane layout;
-	VBox months;
+	MonthsBox months;
 	HBox wallets;
-	RecordsTableView records;
+	static RecordsTableView records;
 	VBox operations;
 	HBox topOperations;
 	
@@ -48,10 +50,12 @@ public class Ui extends Application {
 		walletTable = new WalletTable();
 		layout = new BorderPane();
 		records = new RecordsTableView();
+		months = new MonthsBox();
+		months.refreshAll();
 		
 		layout.setPrefSize(600, 400);
 		
-		layout.setLeft(monthsBox());
+		layout.setLeft(months);
 		layout.setBottom(walletBox());
 		layout.setCenter(records);
 		layout.setRight(operationsBox());
@@ -61,23 +65,7 @@ public class Ui extends Application {
 	
 		stage.show();
 	}
-	private VBox monthsBox() {
-		months = new VBox();
-		months.getChildren().add(new Label("Months"));
-		months.setStyle("-fx-padding: 10,0,0,0;");
-		try {
-			ArrayList<String> months = recordTable.getMonths();
-			months.stream().forEach(month -> {
-				Label monthLabel = new Label(month);
-				GridPane.setHalignment(monthLabel, HPos.CENTER);
-				this.months.getChildren().add(monthLabel);
-			});
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return months;
-	}
+
 	private HBox walletBox() {
 		wallets = new HBox();
 		wallets.setPrefWidth(100);

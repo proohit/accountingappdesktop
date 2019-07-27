@@ -35,4 +35,7 @@ public class RecordsTableView extends TableView<Record> {
 	public void add(Record data) {
 		this.getItems().add(data);
 	}
+	public void clear() {
+		this.getItems().clear();
+	}
 }

@@ -18,8 +18,8 @@ public class RecordTable extends Table {
 		columns.put("timestamp", "datetime");
 	}
 
-	public void insertValues(Record record) throws SQLException {
-		String sql = "INSERT INTO " + tableName + "(" + "description," + "value," + "timestamp," + "walletName)"
+	public static void insertValues(Record record) throws SQLException {
+		String sql = "INSERT INTO " + "Record" + "(" + "description," + "value," + "timestamp," + "walletName)"
 				+ "VALUES('" + record.getDescription() + "'," + record.getValue() + "," + "DATETIME('now')" + ", '"
 				+ record.getWallet() + "');";
 		DBManager.executeStatement(sql);
@@ -27,14 +27,14 @@ public class RecordTable extends Table {
 				+ record.getWallet() + "';");
 	}
 
-	public void insertValues(int id, String description, double value, String walletName) throws SQLException {
-		String sql = "INSERT INTO " + tableName + "(recordId, description, value, timestamp, walletName) VALUES(" + id
+	public static void insertValues(int id, String description, double value, String walletName) throws SQLException {
+		String sql = "INSERT INTO " + "Record" + "(recordId, description, value, timestamp, walletName) VALUES(" + id
 				+ "," + "'" + description + "'" + "," + value + "," + "DATETIME('now'), '" + walletName + "');";
 		DBManager.executeStatement(sql);
 		DBManager.executeStatement(
 				"UPDATE Wallet SET balance=balance+" + value + " WHERE name=" + "'" + walletName + "';");
 	}
-	public void updateRecord(Record record, double value, String description, String walletName) throws SQLException {
+	public static void updateRecord(Record record, double value, String description, String walletName) throws SQLException {
 		String sql="UPDATE Record SET value="+value+", description='"+description+"', walletName='"+walletName+"' WHERE recordId="+record.getId()+";";
 		double correctValue = record.getValue()*-1;
 		DBManager.executeStatement(sql);
@@ -43,32 +43,32 @@ public class RecordTable extends Table {
 		DBManager.executeStatement(sql2);
 		DBManager.executeStatement(sql3);
 	}
-	public void createTable() throws SQLException {
+	public static void createTable() throws SQLException {
 		DBManager.executeStatement("CREATE TABLE IF NOT EXISTS Record (" + "recordId INTEGER PRIMARY KEY,"
 				+ "description varchar," + "value double," + "walletName varchar," + "timestamp smalldatetime,"
 				+ "FOREIGN KEY(walletName) REFERENCES Wallet(name));");
 	}
-	public Record getById(int id) throws SQLException {
-		String sql = "SELECT * FROM " + tableName + " WHERE recordId="+id+";";
+	public static Record getById(int id) throws SQLException {
+		String sql = "SELECT * FROM " + "Record" + " WHERE recordId="+id+";";
 		return getResult(sql).get(0);
 	}
-	public ArrayList<Record> getByYear(int year) throws SQLException {
-		String sql = "SELECT * FROM " + tableName + " WHERE strftime('%Y',timestamp)=='" + year + "';";
+	public static ArrayList<Record> getByYear(int year) throws SQLException {
+		String sql = "SELECT * FROM " + "Record" + " WHERE strftime('%Y',timestamp)=='" + year + "';";
 		return getResult(sql);
 	}
-	public ArrayList<Record> getByMonth(int year, String month) throws SQLException {
-		String sql = "SELECT * FROM " + tableName + " WHERE strftime('%Y-%m',timestamp)=='" + year + "-"+month+"';";
+	public static ArrayList<Record> getByMonth(int year, String month) throws SQLException {
+		String sql = "SELECT * FROM " + "Record" + " WHERE strftime('%Y-%m',timestamp)=='" + year + "-"+month+"';";
 		return getResult(sql);
 	}
-	public ArrayList<Record> getByMonth(String yearMonth) throws SQLException {
-		String sql = "SELECT * FROM " + tableName + " WHERE strftime('%Y-%m',timestamp)=='" + yearMonth+"';";
+	public static ArrayList<Record> getByMonth(String yearMonth) throws SQLException {
+		String sql = "SELECT * FROM " + "Record" + " WHERE strftime('%Y-%m',timestamp)=='" + yearMonth+"';";
 		return getResult(sql);
 	}
-	public ArrayList<Record> getByDescription(String description) throws SQLException {
-		String sql = "SELECT * FROM " + tableName + " WHERE description=='"+description+"';";
+	public static ArrayList<Record> getByDescription(String description) throws SQLException {
+		String sql = "SELECT * FROM " + "Record" + " WHERE description=='"+description+"';";
 		return getResult(sql);
 	}
-	public ArrayList<String> getMonths() throws SQLException {
+	public static ArrayList<String> getMonths() throws SQLException {
 		String sql = "select DISTINCT strftime('%Y-%m',timestamp) as month from Record ORDER BY month desc";
 		ResultSet rs = DBManager.selectStmt(sql);
 		ArrayList<String> result = new ArrayList<String>();
@@ -77,7 +77,7 @@ public class RecordTable extends Table {
 		}
 		return result;
 	}
-	private ArrayList<Record> getResult(String sql) throws SQLException {
+	private static ArrayList<Record> getResult(String sql) throws SQLException {
 		ResultSet rs = DBManager.selectStmt(sql);
 		ArrayList<Record> result = new ArrayList<Record>();
 		while (rs.next()) {
@@ -87,8 +87,8 @@ public class RecordTable extends Table {
 		return result;
 	}
 
-	public ArrayList<Record> selectAll() throws SQLException {
-		String sql = "SELECT * FROM " + tableName + ";";
+	public static ArrayList<Record> selectAll() throws SQLException {
+		String sql = "SELECT * FROM " + "Record" + ";";
 		return getResult(sql);
 	}
 }
