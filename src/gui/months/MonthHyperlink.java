@@ -1,4 +1,4 @@
-package gui;
+package gui.months;
 
 import javafx.scene.control.Hyperlink;
 

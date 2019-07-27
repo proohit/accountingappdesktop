@@ -1,4 +1,4 @@
-package gui;
+package gui.records;
 
 import data.Record;
 import javafx.scene.control.TableColumn;

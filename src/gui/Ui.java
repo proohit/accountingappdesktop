@@ -11,6 +11,9 @@ import DBConnection.DBManager;
 import DBTables.RecordTable;
 import DBTables.WalletTable;
 import data.Record;
+import gui.months.MonthsBox;
+import gui.operations.OperationsBox;
+import gui.records.RecordsTableView;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -34,10 +37,10 @@ import javafx.stage.Stage;
 
 public class Ui extends Application {
 	BorderPane layout;
-	MonthsBox months;
-	HBox wallets;
-	static RecordsTableView records;
-	VBox operations;
+	static MonthsBox months;
+	static HBox wallets;
+	public static RecordsTableView records;
+	static OperationsBox operations;
 	HBox topOperations;
 	
 	RecordTable recordTable;
@@ -48,17 +51,21 @@ public class Ui extends Application {
 		setDb("Accounting");
 		recordTable = new RecordTable();
 		walletTable = new WalletTable();
+		
 		layout = new BorderPane();
 		records = new RecordsTableView();
 		months = new MonthsBox();
+		operations = new OperationsBox();
+		
 		months.refreshAll();
+		
 		
 		layout.setPrefSize(600, 400);
 		
 		layout.setLeft(months);
 		layout.setBottom(walletBox());
 		layout.setCenter(records);
-		layout.setRight(operationsBox());
+		layout.setRight(operations);
 		stage.setScene(new Scene(layout));
 		stage.setTitle("Accounting App");
 		GridPane.setHalignment(operations, HPos.CENTER);
@@ -73,23 +80,7 @@ public class Ui extends Application {
 		return wallets;
 	}
 
-	private VBox operationsBox() {
-		operations = new VBox();
-		Hyperlink operationLabel = new Hyperlink("add record...");
-		operationLabel.setOnAction(new EventHandler<ActionEvent>() {
 
-			@Override
-			public void handle(ActionEvent event) {
-				Stage addWindow = addScreen();
-				addWindow.show();
-			}
-		});
-		BorderPane.setAlignment(operationLabel, Pos.CENTER);
-		operations.getChildren().add(operationLabel);
-		
-		operations.setPrefWidth(100);
-		return operations;
-	}
 	private void setDb(String dbName) {
 		DBManager.createDB(dbName);
 	}

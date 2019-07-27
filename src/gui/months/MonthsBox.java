@@ -1,4 +1,4 @@
-package gui;
+package gui.months;
 
 import java.util.ArrayList;
 

@@ -6,9 +6,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public abstract class ButtonHandler {
+public class ButtonHandler {
 
-	public Stage showAddWindow() {
+	public static Stage showAddWindow() {
 		GridPane addPane = new GridPane();
 		Label descriptionLabel = new Label("description");
 		TextField descriptionField = new TextField();
@@ -30,7 +30,7 @@ public abstract class ButtonHandler {
 	
 		return addWindow;
 	}
-	public Stage showEditWindow() {
+	public static Stage showEditWindow() {
 		GridPane addPane = new GridPane();
 		Label descriptionLabel = new Label("description");
 		TextField descriptionField = new TextField();
