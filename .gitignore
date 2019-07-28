@@ -6,7 +6,7 @@
 /lib
 
 #databases
-*.db
+
 
 #configuration
 .project
