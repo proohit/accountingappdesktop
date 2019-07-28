@@ -3,6 +3,7 @@ package gui.months;
 import java.util.ArrayList;
 
 import DBTables.RecordTable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -14,6 +15,7 @@ public class MonthsBox extends VBox {
 		monthsLabel.setStyle("-fx-font-size: 14px;");
 		this.add(monthsLabel);
 		this.setStyle("-fx-padding: 10,0,0,0;");
+		this.setAlignment(Pos.CENTER);
 	}
 
 	public void refreshAll() {
@@ -29,6 +31,7 @@ public class MonthsBox extends VBox {
 	}
 
 	public void add(Label label) {
+		label.setAlignment(Pos.CENTER);
 		this.getChildren().add(label);
 	}
 	public void add(MonthHyperlink monthHyperlink) {

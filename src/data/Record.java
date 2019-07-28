@@ -7,8 +7,8 @@ import java.util.TimeZone;
 
 public class Record {
 	// Datum funktioniert noch nicht
-	Calendar timestamp;
-	
+	Calendar timestamp2;
+	String timestamp;
 	int recordId;
 	String description;
 	double value;
@@ -22,11 +22,12 @@ public class Record {
 
 	public Record(String timestamp, int recordId, String description, double value, String walletName) {
 		try {
-			this.timestamp = parseDate(timestamp);
+			this.timestamp2 = parseDate(timestamp);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.timestamp=this.getTimestamp();
 		this.description = description;
 		this.recordId = recordId;
 		this.walletName = walletName;
@@ -35,11 +36,11 @@ public class Record {
 
 	public Calendar parseDate(String date) throws ParseException {
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		timestamp = Calendar.getInstance();
-		timestamp.setTimeZone(TimeZone.getDefault());
-		timestamp.setTime(format1.parse(date));
-		timestamp.set(Calendar.HOUR, getHour24()+ timestamp.get(Calendar.ZONE_OFFSET)/1000/60/60);
-		return timestamp;
+		timestamp2 = Calendar.getInstance();
+		timestamp2.setTimeZone(TimeZone.getDefault());
+		timestamp2.setTime(format1.parse(date));
+		timestamp2.set(Calendar.HOUR, getHour24()+ timestamp2.get(Calendar.ZONE_OFFSET)/1000/60/60);
+		return timestamp2;
 	}
 
 	public String getDescription() {
@@ -60,42 +61,42 @@ public class Record {
 
 	private String getTimestampAmPm() {
 		return getYear() + "-" + getMonth() + "-" + getDay() + " " + getHourAmPm() + ":" + getMinutes() + ":"
-				+ getSeconds() + " " + (timestamp.get(Calendar.AM_PM) == 1 ? "PM":"AM");
+				+ getSeconds() + " " + (timestamp2.get(Calendar.AM_PM) == 1 ? "PM":"AM");
 	}
-	private String getTimestamp24() {
+	public String getTimestamp() {
 		return getYear() + "-" + getMonth() + "-" + getDay() + " " + getHour24() + ":" + getMinutes() + ":"
 				+ getSeconds();
 	}
 
 	public int getYear() {
-		return timestamp.get(Calendar.YEAR);
+		return timestamp2.get(Calendar.YEAR);
 	}
 
 	public int getMonth() {
-		return timestamp.get(Calendar.MONTH) + 1;
+		return timestamp2.get(Calendar.MONTH) + 1;
 	}
 
 	public int getDay() {
-		return timestamp.get(Calendar.DATE);
+		return timestamp2.get(Calendar.DATE);
 	}
 
 	public int getHour24() {
 		//return timestamp.get(Calendar.AM_PM)==1?timestamp.get(Calendar.HOUR_OF_DAY)+12:timestamp.get(Calendar.HOUR_OF_DAY);
-		return timestamp.get(Calendar.HOUR_OF_DAY);
+		return timestamp2.get(Calendar.HOUR_OF_DAY);
 	}
 	public int getHourAmPm() {
-		return timestamp.get(Calendar.HOUR);
+		return timestamp2.get(Calendar.HOUR);
 	}
 
 	public int getMinutes() {
-		return timestamp.get(Calendar.MINUTE);
+		return timestamp2.get(Calendar.MINUTE);
 	}
 
 	public int getSeconds() {
-		return timestamp.get(Calendar.SECOND);
+		return timestamp2.get(Calendar.SECOND);
 	}
 
 	public String toString() {
-		return recordId + " " + description + " " + walletName + " " + value + " " + getTimestamp24();
+		return recordId + " " + description + " " + walletName + " " + value + " " + getTimestamp();
 	}
 }

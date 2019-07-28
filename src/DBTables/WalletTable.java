@@ -16,16 +16,16 @@ public class WalletTable extends Table {
 		columns.put("balance", "double");
 	}
 
-	public void createTable() throws SQLException {
+	public static void createTable() throws SQLException {
 		DBManager.executeStatement(
 				"CREATE TABLE IF NOT EXISTS Wallet (" + "name varchar," + "balance double," + "PRIMARY KEY(name));");
 	}
 
-	public void insertValue(String name, double balance) throws SQLException {
+	public static void insertValue(String name, double balance) throws SQLException {
 		DBManager.executeStatement("INSERT INTO Wallet(name, balance) VALUES(" + "'" + name + "'," + balance + ");");
 	}
 
-	public void insertValue(Wallet wallet) throws SQLException {
+	public static void insertValue(Wallet wallet) throws SQLException {
 		String sql = "INSERT INTO Wallet(name, balance) VALUES('" + wallet.getName() + "'," + wallet.getBalance()
 				+ ");";
 		DBManager.executeStatement(sql);
@@ -38,7 +38,7 @@ public class WalletTable extends Table {
 		}
 		return result;
 	}
-	public ArrayList<Wallet> getWallets() throws SQLException{
+	public static ArrayList<Wallet> getWallets() throws SQLException{
 		ArrayList<Wallet> result = new ArrayList<Wallet>();
 		ResultSet rs = DBManager.selectStmt("SELECT * FROM WALLET");
 		while (rs.next()) {
@@ -46,7 +46,7 @@ public class WalletTable extends Table {
 		}
 		return result;
 	}
-	public void updateBalance(String walletName, double update) throws SQLException  {
+	public static void updateBalance(String walletName, double update) throws SQLException  {
 			DBManager.executeStatement(
 					"UPDATE Wallet SET balance=balance+" + update + " WHERE name=" + "'" + walletName + "';");
 	}

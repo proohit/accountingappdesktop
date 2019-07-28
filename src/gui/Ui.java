@@ -14,6 +14,7 @@ import data.Record;
 import gui.months.MonthsBox;
 import gui.operations.OperationsBox;
 import gui.records.RecordsTableView;
+import gui.wallets.WalletBox;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -38,7 +39,10 @@ import javafx.stage.Stage;
 public class Ui extends Application {
 	BorderPane layout;
 	static MonthsBox months;
-	static HBox wallets;
+	static ScrollPane monthsScrollPane;
+	
+	static ScrollPane walletsScrollPane;
+	static WalletBox wallets;
 	public static RecordsTableView records;
 	static OperationsBox operations;
 	HBox topOperations;
@@ -55,15 +59,20 @@ public class Ui extends Application {
 		layout = new BorderPane();
 		records = new RecordsTableView();
 		months = new MonthsBox();
-		operations = new OperationsBox();
-		
 		months.refreshAll();
+		wallets= new WalletBox();
+		wallets.refreshAll();
+		operations = new OperationsBox();
+		monthsScrollPane = new ScrollPane();
+		monthsScrollPane.setContent(months);
+		monthsScrollPane.setPrefViewportWidth(75);
+		walletsScrollPane = new ScrollPane();
+		walletsScrollPane.setContent(wallets);
 		
+		layout.setPrefSize(800, 500);
 		
-		layout.setPrefSize(600, 400);
-		
-		layout.setLeft(months);
-		layout.setBottom(walletBox());
+		layout.setLeft(monthsScrollPane);
+		layout.setBottom(walletsScrollPane);
 		layout.setCenter(records);
 		layout.setRight(operations);
 		stage.setScene(new Scene(layout));
@@ -72,14 +81,6 @@ public class Ui extends Application {
 	
 		stage.show();
 	}
-
-	private HBox walletBox() {
-		wallets = new HBox();
-		wallets.setPrefWidth(100);
-		
-		return wallets;
-	}
-
 
 	private void setDb(String dbName) {
 		DBManager.createDB(dbName);
