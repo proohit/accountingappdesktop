@@ -11,6 +11,7 @@
 #configuration
 .project
 .classpath
+/settings
 
 # Log file
 *.log

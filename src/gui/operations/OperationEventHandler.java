@@ -1,6 +1,6 @@
 package gui.operations;
 
-import gui.ButtonHandler;
+import gui.OperationHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -16,7 +16,7 @@ public class OperationEventHandler implements EventHandler<ActionEvent> {
 	public void handle(ActionEvent arg0) {
 		switch (operation.type) {
 		case "add": {
-			ButtonHandler.showAddWindow().show();
+			OperationHandler.showAddWindow().show();
 			break;
 		}
 		}

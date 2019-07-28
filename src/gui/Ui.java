@@ -88,9 +88,4 @@ public class Ui extends Application {
 	public static void main(String[] args) {
 		launch();
 	}
-	
-	private Stage addScreen() {
-		AddButton bAddButton = new AddButton("add");
-		return bAddButton.showAddWindow();
-	}
 }

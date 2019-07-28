@@ -30,6 +30,7 @@ public class WalletTable extends Table {
 				+ ");";
 		DBManager.executeStatement(sql);
 	}
+
 	public ArrayList<Wallet> getWalletByName(String name) throws SQLException {
 		ArrayList<Wallet> result = new ArrayList<Wallet>();
 		ResultSet rs = getByName(name);
@@ -38,7 +39,8 @@ public class WalletTable extends Table {
 		}
 		return result;
 	}
-	public static ArrayList<Wallet> getWallets() throws SQLException{
+
+	public static ArrayList<Wallet> getWallets() throws SQLException {
 		ArrayList<Wallet> result = new ArrayList<Wallet>();
 		ResultSet rs = DBManager.selectStmt("SELECT * FROM WALLET");
 		while (rs.next()) {
@@ -46,8 +48,20 @@ public class WalletTable extends Table {
 		}
 		return result;
 	}
-	public static void updateBalance(String walletName, double update) throws SQLException  {
-			DBManager.executeStatement(
-					"UPDATE Wallet SET balance=balance+" + update + " WHERE name=" + "'" + walletName + "';");
+
+	public static void updateBalance(String walletName, double update) throws SQLException {
+		DBManager.executeStatement(
+				"UPDATE Wallet SET balance=balance+" + update + " WHERE name=" + "'" + walletName + "';");
+	}
+
+	public static boolean contains(String name) throws Exception {
+		String sql = "SELECT * FROM Wallet WHERE wallet.name = " + name;
+		try {
+			ResultSet rs = DBManager.selectStmt(sql);
+			return rs.next();
+		} catch (SQLException e) {
+			throw new Exception("invalid Wallet");
+		}
+
 	}
 }
