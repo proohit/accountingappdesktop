@@ -15,8 +15,16 @@ public class OperationEventHandler implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent arg0) {
 		switch (operation.type) {
-		case "add": {
+		case "addRecord": {
 			OperationHandler.showAddWindow().show();
+			break;
+		}
+		case "deleteRecord": {
+			OperationHandler.deleteRecordWindow().show();
+			break;
+		}
+		case "editRecord": {
+			OperationHandler.showEditWindow().show();
 			break;
 		}
 		}

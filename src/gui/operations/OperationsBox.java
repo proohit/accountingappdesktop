@@ -11,7 +11,9 @@ public class OperationsBox extends VBox {
 		this.add(operationsLabel);
 		this.setStyle("-fx-padding: 10,0,0,0;");
 		
-		this.add(new OperationHyperlink("add record..", "add"));
+		this.add(new OperationHyperlink("add record..", "addRecord"));
+		this.add(new OperationHyperlink("edit record..", "editRecord"));
+		this.add(new OperationHyperlink("delete record..", "deleteRecord"));
 	}
 
 	public void add(Label label) {
