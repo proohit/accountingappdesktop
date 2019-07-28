@@ -1,39 +1,19 @@
 package gui;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.DatagramSocket;
-import java.util.ArrayList;
-
-import com.sun.tools.sjavac.comp.dependencies.PublicApiCollector;
-
 import DBConnection.DBManager;
 import DBTables.RecordTable;
 import DBTables.WalletTable;
-import data.Record;
 import gui.months.MonthsBox;
 import gui.operations.OperationsBox;
 import gui.records.RecordsTableView;
 import gui.wallets.WalletBox;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Ui extends Application {

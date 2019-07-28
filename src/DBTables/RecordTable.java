@@ -105,4 +105,13 @@ public class RecordTable extends Table {
 		String sql = "SELECT * FROM " + "Record" + ";";
 		return getResult(sql);
 	}
+
+	public static void deleteById(int id) throws Exception {
+		String sql = "DELETE FROM Record WHERE recordId=" + id;
+		try {
+			DBManager.executeStatement(sql);
+		} catch (SQLException e) {
+			throw new Exception("record not available");
+		}
+	}
 }

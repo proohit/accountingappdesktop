@@ -2,7 +2,6 @@ package Application;
 
 import DBConnection.*;
 import DBTables.RecordTable;
-import DBTables.Table;
 import DBTables.WalletTable;
 import data.Record;
 import data.Wallet;
@@ -27,14 +26,14 @@ public class DBTest {
 //	    recordTable.insertValues(rec1);
 //	    recordTable.insertValues(rec2);
 //	    recordTable.insertValues(rec3);
-			recordTable.insertValues(new Record("essen", -15, "Bar"));
-			walletTable.insertValue(new Wallet("Bar", 15));
+			RecordTable.insertValues(new Record("essen", -15, "Bar"));
+			WalletTable.insertValue(new Wallet("Bar", 15));
 			DBManager.debugOn();
 //		recordTable.printRows();
-			recordTable.selectAll().stream().forEach(record -> print(record));
+			RecordTable.selectAll().stream().forEach(record -> print(record));
 //	    recordTable.getByYear(2019).forEach(DBTest::print);
 //	    recordTable.getByMonth(2019,"05").forEach(DBTest::print);
-			recordTable.getByDescription("essen").stream().filter(record -> record.getYear() == 2019)
+			RecordTable.getByDescription("essen").stream().filter(record -> record.getYear() == 2019)
 					.forEach(record -> print(record));
 			walletTable.getWalletByName("Konto").stream().forEach(wallet -> print(wallet));
 			walletTable.getWalletByName("Bar").stream().forEach(wallet -> print(wallet));

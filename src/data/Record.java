@@ -96,6 +96,7 @@ public class Record {
 		return timestamp2.get(Calendar.SECOND);
 	}
 
+	@Override
 	public String toString() {
 		return recordId + " " + description + " " + walletName + " " + value + " " + getTimestamp();
 	}

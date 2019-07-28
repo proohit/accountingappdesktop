@@ -21,6 +21,7 @@ public class Wallet {
 		balance += update;
 		return balance;
 	}
+	@Override
 	public String toString() {
 		return name + " " + balance;
 	}

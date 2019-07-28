@@ -17,6 +17,7 @@ public class HyperlinkEventHandler implements EventHandler<ActionEvent> {
 		this.link = link;
 	}
 
+	@Override
 	public void handle(ActionEvent arg0) {
 
 		try {

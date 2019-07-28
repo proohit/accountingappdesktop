@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.ScrollPane;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import DBConnection.DBManager;
@@ -8,14 +7,10 @@ import DBTables.RecordTable;
 import DBTables.WalletTable;
 import data.Record;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -25,12 +20,9 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -61,77 +53,11 @@ public class Gui extends Application {
 		spPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		months = addMonths();
 		border.add(months, 0, 0);
-		border.add(addWalletBox(), 1, 1);
 //		border.add(addButton(), 2, 1);
 //		border.add(editButton(), 3, 1);
 		border.add(recordsGrid, 1, 0);
 
 		stage.show();
-	}
-
-	private Button addButton() {
-		Button addButton = new Button("add Record");
-		addButton.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				GridPane addPane = new GridPane();
-				Label descriptionLabel = new Label("description");
-				TextField descriptionField = new TextField();
-				Label valueLabel = new Label("value");
-				TextField valueField = new TextField();
-				Label walletLabel = new Label("wallet");
-				TextField walletField = new TextField();
-				addPane.add(descriptionLabel, 0, 0);
-				addPane.add(descriptionField, 1, 0);
-				addPane.add(valueLabel, 0, 1);
-				addPane.add(valueField, 1, 1);
-				addPane.add(walletLabel, 0, 2);
-				addPane.add(walletField, 1, 2);
-//				Parent root = FXMLLoader.load(getClass().getResource("AddEditWindow.fxml"));
-				Button okButton = new Button("OK");
-
-				Button cancelButton = new Button("Cancel");
-				cancelButton.setCancelButton(true);
-				addPane.add(okButton, 0, 3);
-				addPane.add(cancelButton, 1, 3);
-
-				Scene addScene = new Scene(addPane);
-				Stage addWindow = new Stage();
-				addWindow.setTitle("add a new record");
-				addWindow.initModality(Modality.APPLICATION_MODAL);
-				addWindow.setScene(addScene);
-
-				okButton.setOnAction(new EventHandler<ActionEvent>() {
-
-					@Override
-					public void handle(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						Record record = new Record(descriptionField.getText(), Double.parseDouble(valueField.getText()),
-								walletField.getText());
-						try {
-							recordTable.insertValues(record);
-							reloadWindow();
-							addWindow.hide();
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				});
-				cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-					@Override
-					public void handle(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						addWindow.hide();
-					}
-				});
-				addWindow.show();
-			}
-		});
-		return addButton;
 	}
 
 	private Button editButton() {
@@ -164,7 +90,7 @@ public class Gui extends Application {
 					public void handle(ActionEvent arg0) {
 						// TODO Auto-generated method stub
 						try {
-							Record record = recordTable.getById(Integer.parseInt(idField.getText()));
+							Record record = RecordTable.getById(Integer.parseInt(idField.getText()));
 
 							GridPane addPane = new GridPane();
 							Label descriptionLabel = new Label("description");
@@ -199,7 +125,7 @@ public class Gui extends Application {
 								public void handle(ActionEvent arg0) {
 									// TODO Auto-generated method stub
 									try {
-										recordTable.updateRecord(record, Double.parseDouble(valueField.getText()),
+										RecordTable.updateRecord(record, Double.parseDouble(valueField.getText()),
 												descriptionField.getText(), walletField.getText());
 										reloadWindow();
 										addWindow.hide();
@@ -242,19 +168,6 @@ public class Gui extends Application {
 		return editButton;
 	}
 
-	private HBox addWalletBox() {
-		HBox hbox = new HBox();
-		hbox.setSpacing(5);
-		try {
-			walletTable.getWallets().stream().forEach(wallet -> hbox.getChildren().add(new Label(wallet.toString())));
-			hbox.getChildren().add(addButton());
-			hbox.getChildren().add(editButton());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return hbox;
-	}
 
 	private void initiateRecordGrid() {
 
@@ -293,7 +206,6 @@ public class Gui extends Application {
 		months = addMonths();
 		border.add(months, 0, 0);
 		border.getChildren().remove(getNodeFromGridPane(border, 1, 1));
-		border.add(addWalletBox(), 1, 1);
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -306,7 +218,7 @@ public class Gui extends Application {
 					javafx.geometry.Insets.EMPTY)));
 			Text title = new Text("Months");
 			vbox.getChildren().add(title);
-			ArrayList<String> months = recordTable.getMonths();
+			ArrayList<String> months = RecordTable.getMonths();
 			months.stream().forEachOrdered(month -> {
 				Hyperlink link = new Hyperlink(month);
 				link.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.LIGHTGRAY,
@@ -318,7 +230,7 @@ public class Gui extends Application {
 						try {
 							recordsGrid.getChildren().clear();
 							initiateRecordGrid();
-							ArrayList<Record> records = recordTable.getByMonth(link.getText());
+							ArrayList<Record> records = RecordTable.getByMonth(link.getText());
 							for (int i = 0; i < records.size(); i++) {
 								Record item = records.get(i);
 								Label idLabel = new Label(Integer.toString(item.getId()));

@@ -1,46 +1,65 @@
 package gui;
 
+import gui.operations.buttonHandler.AddClickHandler;
+import gui.operations.buttonHandler.DeleteClickHandler;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
 public class OperationHandler {
 
-	static GridPane addPane = new GridPane();
+	static GridPane operationPane = new GridPane();
 	static Label descriptionLabel = new Label("description");
 	static TextField descriptionField = new TextField();
 	static Label valueLabel = new Label("value");
 	static TextField valueField = new TextField();
 	static Label walletLabel = new Label("wallet");
 	static TextField walletField = new TextField();
+	static Label delIdLabel = new Label("record id");
+	static TextField delIdField = new TextField();
 
 	private static void initializeGrid() {
-		addPane.setPrefSize(300, 150);
-		addPane.setPadding(new Insets(0, 10, 0, 10));
-		addPane.setHgap(15);
+		operationPane.getChildren().clear();
+		operationPane.setPrefSize(300, 150);
+		operationPane.setPadding(new Insets(0, 10, 0, 10));
+		operationPane.setHgap(15);
 	}
 
 	public static Stage showAddWindow() {
 		initializeGrid();
-		AddButton addButton = new AddButton();
-
 		GridPane.setHgrow(descriptionField, Priority.SOMETIMES);
 
-		addPane.add(descriptionLabel, 0, 0);
-		addPane.add(descriptionField, 1, 0);
-		addPane.add(valueLabel, 0, 1);
-		addPane.add(valueField, 1, 1);
-		addPane.add(walletLabel, 0, 2);
-		addPane.add(walletField, 1, 2);
-		addPane.add(addButton, 0, 3);
+		final Stage addWindow = new Stage();
 
-		Scene addScene = new Scene(addPane);
-		Stage addWindow = new Stage();
+		Button cancelButton = new Button("cancel");
+		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				addWindow.hide();
+			}
+		});
+
+		Button addButton = new Button("add");
+		addButton.setOnAction(new AddClickHandler());
+
+		operationPane.add(descriptionLabel, 0, 0);
+		operationPane.add(descriptionField, 1, 0);
+		operationPane.add(valueLabel, 0, 1);
+		operationPane.add(valueField, 1, 1);
+		operationPane.add(walletLabel, 0, 2);
+		operationPane.add(walletField, 1, 2);
+		operationPane.add(addButton, 0, 3);
+		operationPane.add(cancelButton, 1, 3);
+
+		Scene addScene = new Scene(operationPane);
 		addWindow.setScene(addScene);
 		addWindow.setTitle("create a new record");
 		return addWindow;
@@ -48,14 +67,14 @@ public class OperationHandler {
 
 	public static Stage showEditWindow() {
 		initializeGrid();
-		addPane.add(descriptionLabel, 0, 0);
-		addPane.add(descriptionField, 1, 0);
-		addPane.add(valueLabel, 0, 1);
-		addPane.add(valueField, 1, 1);
-		addPane.add(walletLabel, 0, 2);
-		addPane.add(walletField, 1, 2);
+		operationPane.add(descriptionLabel, 0, 0);
+		operationPane.add(descriptionField, 1, 0);
+		operationPane.add(valueLabel, 0, 1);
+		operationPane.add(valueField, 1, 1);
+		operationPane.add(walletLabel, 0, 2);
+		operationPane.add(walletField, 1, 2);
 
-		Scene addScene = new Scene(addPane);
+		Scene addScene = new Scene(operationPane);
 		Stage addWindow = new Stage();
 		addWindow.setScene(addScene);
 
@@ -64,9 +83,29 @@ public class OperationHandler {
 
 	public static Stage deleteRecordWindow() {
 		initializeGrid();
+		GridPane.setHgrow(delIdField, Priority.SOMETIMES);
+		final Stage deleteWindow = new Stage();
 		
-		Label idLabel = new Label("Record id");
-		TextField idField = new TextField();
+		Button deleteButton = new Button("delete");
+		deleteButton.setOnAction(new DeleteClickHandler());
+
+		Button cancelButton = new Button("cancel");
+		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				deleteWindow.hide();
+			}
+		});
+
+		operationPane.add(delIdLabel, 0, 0);
+		operationPane.add(delIdField, 0, 0);
+
+		
+		Scene addScene = new Scene(operationPane);
+		deleteWindow.setScene(addScene);
+		deleteWindow.setTitle("delete a record");
+		return deleteWindow;
 	}
 
 	public static String getDescriptionField() {
@@ -74,10 +113,14 @@ public class OperationHandler {
 	}
 
 	public static double getValueField() {
-		return Integer.parseInt(valueField.getText());
+		return Double.parseDouble(valueField.getText());
 	}
 
 	public static String getWalletField() {
 		return walletField.getText();
+	}
+
+	public static int getDelId() {
+		return Integer.parseInt(delIdField.getText());
 	}
 }
