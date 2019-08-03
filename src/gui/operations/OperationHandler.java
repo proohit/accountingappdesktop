@@ -1,4 +1,4 @@
-package gui;
+package gui.operations;
 
 import gui.operations.buttonHandler.AddClickHandler;
 import gui.operations.buttonHandler.DeleteClickHandler;
@@ -26,7 +26,11 @@ public class OperationHandler {
 	static TextField delIdField = new TextField();
 
 	private static void initializeGrid() {
-		operationPane.getChildren().clear();
+		operationPane= new GridPane();
+		descriptionField = new TextField();
+		valueField = new TextField();
+		walletField = new TextField();
+		delIdField = new TextField();
 		operationPane.setPrefSize(300, 150);
 		operationPane.setPadding(new Insets(0, 10, 0, 10));
 		operationPane.setHgap(15);
@@ -48,7 +52,7 @@ public class OperationHandler {
 		});
 
 		Button addButton = new Button("add");
-		addButton.setOnAction(new AddClickHandler());
+		addButton.setOnAction(new AddClickHandler(addWindow));
 
 		operationPane.add(descriptionLabel, 0, 0);
 		operationPane.add(descriptionField, 1, 0);

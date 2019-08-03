@@ -1,6 +1,5 @@
 package gui.operations;
 
-import gui.OperationHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 

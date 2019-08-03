@@ -24,7 +24,10 @@ public class DBConnection {
 	public static boolean connected() {
 		return conn != null ? true : false;
 	}
-
+	public static Connection getConnection() {
+		if(connected()) return conn;
+		else return null;
+	}
 	public static Statement newStatement() throws SQLException {
 		try {
 			return conn.createStatement();

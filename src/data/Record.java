@@ -95,7 +95,9 @@ public class Record {
 	public int getSeconds() {
 		return timestamp2.get(Calendar.SECOND);
 	}
-
+	public void setId(int id) {
+		this.recordId = id;
+	}
 	@Override
 	public String toString() {
 		return recordId + " " + description + " " + walletName + " " + value + " " + getTimestamp();

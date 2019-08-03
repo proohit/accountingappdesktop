@@ -55,7 +55,7 @@ public class WalletTable extends Table {
 	}
 
 	public static boolean contains(String name) throws Exception {
-		String sql = "SELECT * FROM Wallet WHERE wallet.name = " + name;
+		String sql = "SELECT * FROM Wallet WHERE wallet.name = \" " + name + "\"";
 		try {
 			ResultSet rs = DBManager.selectStmt(sql);
 			return rs.next();

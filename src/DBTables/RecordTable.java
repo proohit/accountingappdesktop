@@ -2,8 +2,10 @@ package DBTables;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
+import DBConnection.DBConnection;
 import DBConnection.DBManager;
 import data.Record;
 
@@ -23,7 +25,13 @@ public class RecordTable extends Table {
 		String sql = "INSERT INTO " + "Record" + "(" + "description," + "value," + "timestamp," + "walletName)"
 				+ "VALUES('" + record.getDescription() + "'," + record.getValue() + "," + "DATETIME('now')" + ", '"
 				+ record.getWallet() + "');";
-		DBManager.executeStatement(sql);
+		
+		Statement statement = DBConnection.getConnection().createStatement();
+		statement.executeUpdate(sql);
+		ResultSet generatedKeys = statement.executeQuery("SELECT last_insert_rowid()");
+		if (generatedKeys.next()) {
+		    record.setId(generatedKeys.getInt(0));
+		}
 		DBManager.executeStatement("UPDATE Wallet SET balance=balance+" + record.getValue() + " WHERE name=" + "'"
 				+ record.getWallet() + "';");
 	}

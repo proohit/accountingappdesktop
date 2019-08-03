@@ -1,7 +1,7 @@
 package gui.operations.buttonHandler;
 
 import DBTables.RecordTable;
-import gui.OperationHandler;
+import gui.operations.OperationHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
