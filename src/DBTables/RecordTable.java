@@ -113,7 +113,17 @@ public class RecordTable extends Table {
 		String sql = "SELECT * FROM " + "Record" + ";";
 		return getResult(sql);
 	}
-
+	public static ArrayList<Record> getByWallet(String wallet) throws SQLException {
+		String sql = "SELECT * FROM Record WHERE walletName = '" + wallet + "'";
+		ArrayList<Record> result = new ArrayList<Record>();
+		
+		ResultSet rs = DBManager.selectStmt(sql);
+		while(rs.next()) {
+			result.add(new Record(rs.getString("timestamp"), rs.getInt("recordId"), rs.getString("description"),
+					rs.getDouble("value"), rs.getString("walletName")));
+			}
+		return result;
+	}
 	public static void deleteById(int id) throws Exception {
 		Record rec = getById(id);
 		String sql = "DELETE FROM Record WHERE recordId=" + id;

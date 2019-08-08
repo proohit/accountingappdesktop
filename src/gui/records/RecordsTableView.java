@@ -53,7 +53,19 @@ public class RecordsTableView extends TableView<Record> {
 			e.printStackTrace();
 		}
 	}
-
+	public void refreshForWallet(String wallet) {
+		ArrayList<Record> records;
+		
+		try {
+			this.clear();
+			records = RecordTable.getByWallet(wallet);
+			records.stream().forEach(walletItem -> {
+				this.add(walletItem);
+			});
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 	public void add(Record data) {
 		this.getItems().add(data);
 	}
