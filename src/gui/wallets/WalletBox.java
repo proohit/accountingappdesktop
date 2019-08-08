@@ -14,6 +14,7 @@ public class WalletBox extends HBox {
 	
 	public void refreshAll() {
 		try {
+			clear();
 			ArrayList<Wallet> wallets = WalletTable.getWallets();
 			wallets.stream().forEach(wallet -> {
 				WalletHyperlink walletLink = new WalletHyperlink(wallet);
@@ -22,6 +23,10 @@ public class WalletBox extends HBox {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+	
+	public void clear() {
+		this.getChildren().clear();
 	}
 	
 	public void add(WalletHyperlink wallet) {

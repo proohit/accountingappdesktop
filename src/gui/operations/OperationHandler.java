@@ -91,7 +91,7 @@ public class OperationHandler {
 		final Stage deleteWindow = new Stage();
 		
 		Button deleteButton = new Button("delete");
-		deleteButton.setOnAction(new DeleteClickHandler());
+		deleteButton.setOnAction(new DeleteClickHandler(deleteWindow));
 
 		Button cancelButton = new Button("cancel");
 		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -103,8 +103,9 @@ public class OperationHandler {
 		});
 
 		operationPane.add(delIdLabel, 0, 0);
-		operationPane.add(delIdField, 0, 0);
-
+		operationPane.add(delIdField, 1, 0);
+		operationPane.add(deleteButton, 0, 1);
+		operationPane.add(cancelButton, 1, 1);
 		
 		Scene addScene = new Scene(operationPane);
 		deleteWindow.setScene(addScene);

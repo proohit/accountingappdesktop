@@ -72,8 +72,9 @@ public class Record {
 		return timestamp2.get(Calendar.YEAR);
 	}
 
-	public int getMonth() {
-		return timestamp2.get(Calendar.MONTH) + 1;
+	public String getMonth() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM");
+		return sdf.format(timestamp2.getTime());
 	}
 
 	public int getDay() {

@@ -30,7 +30,7 @@ public class RecordTable extends Table {
 		statement.executeUpdate(sql);
 		ResultSet generatedKeys = statement.executeQuery("SELECT last_insert_rowid()");
 		if (generatedKeys.next()) {
-		    record.setId(generatedKeys.getInt(0));
+		    record.setId(generatedKeys.getInt("last_insert_rowid()"));
 		}
 		DBManager.executeStatement("UPDATE Wallet SET balance=balance+" + record.getValue() + " WHERE name=" + "'"
 				+ record.getWallet() + "';");
@@ -115,9 +115,12 @@ public class RecordTable extends Table {
 	}
 
 	public static void deleteById(int id) throws Exception {
+		Record rec = getById(id);
 		String sql = "DELETE FROM Record WHERE recordId=" + id;
+		String walletString = "UPDATE Wallet SET balance=balance-"+rec.getValue() + " WHERE name='"+rec.getWallet()+"';" ;
 		try {
 			DBManager.executeStatement(sql);
+			DBManager.executeStatement(walletString);
 		} catch (SQLException e) {
 			throw new Exception("record not available");
 		}

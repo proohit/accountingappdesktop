@@ -29,7 +29,7 @@ public class MonthsBox extends VBox {
 			// TODO: handle exception
 		}
 	}
-
+	
 	public void add(Label label) {
 		label.setAlignment(Pos.CENTER);
 		this.getChildren().add(label);

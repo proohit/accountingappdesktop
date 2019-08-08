@@ -22,7 +22,7 @@ public class Ui extends Application {
 	static ScrollPane monthsScrollPane;
 	
 	static ScrollPane walletsScrollPane;
-	static WalletBox wallets;
+	public static WalletBox wallets;
 	public static RecordsTableView records;
 	static OperationsBox operations;
 	HBox topOperations;
