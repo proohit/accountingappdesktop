@@ -3,7 +3,7 @@ package gui.operations.buttonHandler;
 import DBTables.RecordTable;
 import data.Record;
 import gui.Ui;
-import gui.operations.OperationHandler;
+import gui.operations.RecordOperationHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -21,7 +21,7 @@ public class DeleteClickHandler implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent arg0) {
 		try {
-			Record rec = RecordTable.getById(OperationHandler.getDelId());
+			Record rec = RecordTable.getById(RecordOperationHandler.getDelId());
 			deleteWindow.hide();
 			RecordTable.deleteById(rec.getId());
 			Ui.wallets.refreshAll();

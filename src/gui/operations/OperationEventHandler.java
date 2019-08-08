@@ -15,16 +15,19 @@ public class OperationEventHandler implements EventHandler<ActionEvent> {
 	public void handle(ActionEvent arg0) {
 		switch (operation.type) {
 		case "addRecord": {
-			OperationHandler.showAddWindow().show();
+			RecordOperationHandler.showAddWindow().show();
 			break;
 		}
 		case "deleteRecord": {
-			OperationHandler.deleteRecordWindow().show();
+			RecordOperationHandler.deleteRecordWindow().show();
 			break;
 		}
 		case "editRecord": {
-			OperationHandler.showEditWindow().show();
+			RecordOperationHandler.showEditWindow().show();
 			break;
+		}
+		case "addWallet": {
+			WalletOperationHandler.addWindow().show();
 		}
 		}
 	}

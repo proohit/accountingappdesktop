@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import DBTables.RecordTable;
 import data.Record;
 import gui.Ui;
-import gui.operations.OperationHandler;
+import gui.operations.RecordOperationHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -20,8 +20,8 @@ public class AddClickHandler implements EventHandler<ActionEvent> {
 	}
 	@Override
 	public void handle(ActionEvent arg0) {
-		Record rec = new Record(OperationHandler.getDescriptionField(), OperationHandler.getValueField(),
-				OperationHandler.getWalletField());
+		Record rec = new Record(RecordOperationHandler.getDescriptionField(), RecordOperationHandler.getValueField(),
+				RecordOperationHandler.getWalletField());
 
 		try {
 			RecordTable.insertValues(rec);

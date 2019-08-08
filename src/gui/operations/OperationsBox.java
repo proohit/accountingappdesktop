@@ -1,19 +1,32 @@
 package gui.operations;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 
 public class OperationsBox extends VBox {
 	public OperationsBox() {
 		super();
 		Label operationsLabel = new Label("Operations");
+		operationsLabel.setAlignment(Pos.CENTER);
 		operationsLabel.setStyle("-fx-font-size: 14px;");
 		this.add(operationsLabel);
 		this.setStyle("-fx-padding: 10,0,0,0;");
 		
+		Label recordOperations= new Label("Record operations");
+		recordOperations.setStyle("-fx-font-size: 14px");
+		this.add(recordOperations);
+		
 		this.add(new OperationHyperlink("add record..", "addRecord"));
 		this.add(new OperationHyperlink("edit record..", "editRecord"));
 		this.add(new OperationHyperlink("delete record..", "deleteRecord"));
+		
+		Label walletOperations= new Label("Wallet operations");
+		walletOperations.setStyle("-fx-font-size: 14px");
+		this.add(walletOperations);
+		
+		this.add(new OperationHyperlink("add wallet...", "addWallet"));
 	}
 
 	public void add(Label label) {

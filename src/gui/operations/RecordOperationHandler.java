@@ -18,7 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
-public class OperationHandler {
+public class RecordOperationHandler {
 
 	static GridPane operationPane = new GridPane();
 	static Label descriptionLabel = new Label("description");
