@@ -1,7 +1,12 @@
 package gui.operations;
 
+import java.sql.SQLException;
+
+import DBTables.RecordTable;
+import data.Record;
 import gui.operations.buttonHandler.AddClickHandler;
 import gui.operations.buttonHandler.DeleteClickHandler;
+import gui.operations.buttonHandler.EditClickHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -26,7 +31,7 @@ public class OperationHandler {
 	static TextField delIdField = new TextField();
 
 	private static void initializeGrid() {
-		operationPane= new GridPane();
+		operationPane = new GridPane();
 		descriptionField = new TextField();
 		valueField = new TextField();
 		walletField = new TextField();
@@ -71,25 +76,89 @@ public class OperationHandler {
 
 	public static Stage showEditWindow() {
 		initializeGrid();
-		operationPane.add(descriptionLabel, 0, 0);
-		operationPane.add(descriptionField, 1, 0);
-		operationPane.add(valueLabel, 0, 1);
-		operationPane.add(valueField, 1, 1);
-		operationPane.add(walletLabel, 0, 2);
-		operationPane.add(walletField, 1, 2);
 
+		final Stage idEditWindow = new Stage();
+		Button okButton = new Button("ok");
+		okButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				try {
+					final Record rec = RecordTable.getById(getDelId());
+
+					idEditWindow.hide();
+
+					Stage editRecordWindow = new Stage();
+					GridPane temp = operationPane;
+					operationPane = new GridPane();
+					operationPane.setPrefSize(300, 150);
+					operationPane.setPadding(new Insets(0, 10, 0, 10));
+					operationPane.setHgap(15);
+					
+					descriptionField.setText(rec.getDescription());
+					valueField.setText(Double.toString(rec.getValue()));
+					walletField.setText(rec.getWallet());
+
+					operationPane.add(descriptionLabel, 0, 0);
+					operationPane.add(descriptionField, 1, 0);
+					operationPane.add(valueLabel, 0, 1);
+					operationPane.add(valueField, 1, 1);
+					operationPane.add(walletLabel, 0, 2);
+					operationPane.add(walletField, 1, 2);
+
+					Scene editRecordScene = new Scene(operationPane);
+
+					Button confirmButton = new Button("confirm");
+					confirmButton.setOnAction(new EditClickHandler(editRecordWindow, rec));
+					Button cancelButton = new Button("cancel");
+					cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+
+						@Override
+						public void handle(ActionEvent arg0) {
+							// TODO Auto-generated method stub
+							operationPane = temp;
+							editRecordWindow.hide();
+							idEditWindow.show();
+						}
+					});
+
+					operationPane.add(confirmButton, 0, 3);
+					operationPane.add(cancelButton, 1, 3);
+
+					editRecordWindow.setScene(editRecordScene);
+					editRecordWindow.show();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+		Button cancelButton = new Button("cancel");
+		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				idEditWindow.hide();
+			}
+		});
+		operationPane.add(delIdLabel, 0, 0);
+		operationPane.add(delIdField, 1, 0);
+		operationPane.add(okButton, 0, 1);
+		operationPane.add(cancelButton, 1, 1);
 		Scene addScene = new Scene(operationPane);
-		Stage addWindow = new Stage();
-		addWindow.setScene(addScene);
 
-		return addWindow;
+		idEditWindow.setScene(addScene);
+
+		return idEditWindow;
 	}
 
 	public static Stage deleteRecordWindow() {
 		initializeGrid();
 		GridPane.setHgrow(delIdField, Priority.SOMETIMES);
 		final Stage deleteWindow = new Stage();
-		
+
 		Button deleteButton = new Button("delete");
 		deleteButton.setOnAction(new DeleteClickHandler(deleteWindow));
 
@@ -106,7 +175,7 @@ public class OperationHandler {
 		operationPane.add(delIdField, 1, 0);
 		operationPane.add(deleteButton, 0, 1);
 		operationPane.add(cancelButton, 1, 1);
-		
+
 		Scene addScene = new Scene(operationPane);
 		deleteWindow.setScene(addScene);
 		deleteWindow.setTitle("delete a record");
