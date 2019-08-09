@@ -1,11 +1,9 @@
 package gui.operations;
 
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 
 public class OperationsBox extends VBox {
 	public OperationsBox() {
@@ -34,7 +32,7 @@ public class OperationsBox extends VBox {
 		this.add(walletOperations);
 		
 		this.add(new OperationHyperlink("add wallet...", "addWallet"));
-		
+		this.add(new OperationHyperlink("edit wallet...", "editWallet"));
 		this.setAlignment(Pos.TOP_CENTER);
 	}
 

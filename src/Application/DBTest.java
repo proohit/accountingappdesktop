@@ -12,7 +12,7 @@ public class DBTest {
 		try {
 			DBManager.createDB("Accounting");
 			WalletTable walletTable = new WalletTable();
-			RecordTable recordTable = new RecordTable();
+//			RecordTable recordTable = new RecordTable();
 
 //	    recordTable.deleteTable();
 //	    walletTable.deleteTable();

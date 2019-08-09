@@ -1,7 +1,5 @@
 package gui.operations.buttonHandler;
 
-import java.util.ArrayList;
-
 import DBTables.RecordTable;
 import data.Record;
 import gui.Ui;

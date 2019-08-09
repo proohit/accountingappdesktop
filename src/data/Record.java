@@ -59,10 +59,10 @@ public class Record {
 		return walletName;
 	}
 
-	private String getTimestampAmPm() {
-		return getYear() + "-" + getMonth() + "-" + getDay() + " " + getHourAmPm() + ":" + getMinutes() + ":"
-				+ getSeconds() + " " + (timestamp2.get(Calendar.AM_PM) == 1 ? "PM":"AM");
-	}
+//	private String getTimestampAmPm() {
+//		return getYear() + "-" + getMonth() + "-" + getDay() + " " + getHourAmPm() + ":" + getMinutes() + ":"
+//				+ getSeconds() + " " + (timestamp2.get(Calendar.AM_PM) == 1 ? "PM":"AM");
+//	}
 	public String getTimestamp() {
 		return getYear() + "-" + getMonth() + "-" + getDay() + " " + getHour24() + ":" + getMinutes() + ":"
 				+ getSeconds();
