@@ -11,11 +11,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class RecordsTableView extends TableView<Record> {
 	final int COLUMNS_COUNT = 5;
-	TableColumn<Record, Integer> idColumn = new TableColumn<Record, Integer>("id");
-	TableColumn<Record, String> descriptionColumn = new TableColumn<Record, String>("description");
-	TableColumn<Record, Double> valueColumn = new TableColumn<Record, Double>("value");
-	TableColumn<Record, String> walletColumn = new TableColumn<Record, String>("wallet");
-	TableColumn<Record, String> timestampColumn = new TableColumn<Record, String>("timestamp");
+	private TableColumn<Record, Integer> idColumn = new TableColumn<Record, Integer>("id");
+	private TableColumn<Record, String> descriptionColumn = new TableColumn<Record, String>("description");
+	private TableColumn<Record, Double> valueColumn = new TableColumn<Record, Double>("value");
+	private TableColumn<Record, String> walletColumn = new TableColumn<Record, String>("wallet");
+	private TableColumn<Record, String> timestampColumn = new TableColumn<Record, String>("timestamp");
+
+	private ArrayList<Record> currentItems = new ArrayList<Record>();
 
 	public RecordsTableView() {
 		super();
@@ -40,11 +42,10 @@ public class RecordsTableView extends TableView<Record> {
 	}
 
 	public void refreshForMonth(String month) {
-		ArrayList<Record> records;
 		try {
 			this.clear();
-			records = RecordTable.getByMonth(month);
-			records.stream().forEach(monthItem -> {
+			currentItems = RecordTable.getByMonth(month);
+			currentItems.stream().forEach(monthItem -> {
 				this.add(monthItem);
 			});
 		} catch (SQLException e) {
@@ -52,24 +53,31 @@ public class RecordsTableView extends TableView<Record> {
 			e.printStackTrace();
 		}
 	}
+
 	public void refreshForWallet(String wallet) {
-		ArrayList<Record> records;
-		
+
 		try {
 			this.clear();
-			records = RecordTable.getByWallet(wallet);
-			records.stream().forEach(walletItem -> {
+			currentItems = RecordTable.getByWallet(wallet);
+			currentItems.stream().forEach(walletItem -> {
 				this.add(walletItem);
 			});
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
+
 	public void add(Record data) {
 		this.getItems().add(data);
+		currentItems.add(data);
 	}
 
 	public void clear() {
 		this.getItems().clear();
+		currentItems.clear();
+	}
+
+	public ArrayList<Record> getCurrentItems() {
+		return currentItems;
 	}
 }
