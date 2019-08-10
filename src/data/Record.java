@@ -64,8 +64,8 @@ public class Record {
 //				+ getSeconds() + " " + (timestamp2.get(Calendar.AM_PM) == 1 ? "PM":"AM");
 //	}
 	public String getTimestamp() {
-		return getYear() + "-" + getMonth() + "-" + getDay() + " " + getHour24() + ":" + getMinutes() + ":"
-				+ getSeconds();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(timestamp2.getTime());
 	}
 
 	public int getYear() {

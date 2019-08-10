@@ -25,12 +25,12 @@ public class RecordTable extends Table {
 		String sql = "INSERT INTO " + "Record" + "(" + "description," + "value," + "timestamp," + "walletName)"
 				+ "VALUES('" + record.getDescription() + "'," + record.getValue() + "," + "DATETIME('now')" + ", '"
 				+ record.getWallet() + "');";
-		
+
 		Statement statement = DBConnection.getConnection().createStatement();
 		statement.executeUpdate(sql);
 		ResultSet generatedKeys = statement.executeQuery("SELECT last_insert_rowid()");
 		if (generatedKeys.next()) {
-		    record.setId(generatedKeys.getInt("last_insert_rowid()"));
+			record.setId(generatedKeys.getInt("last_insert_rowid()"));
 		}
 		DBManager.executeStatement("UPDATE Wallet SET balance=balance+" + record.getValue() + " WHERE name=" + "'"
 				+ record.getWallet() + "';");
@@ -62,6 +62,18 @@ public class RecordTable extends Table {
 		DBManager.executeStatement("CREATE TABLE IF NOT EXISTS Record (" + "recordId INTEGER PRIMARY KEY,"
 				+ "description varchar," + "value double," + "walletName varchar," + "timestamp smalldatetime,"
 				+ "FOREIGN KEY(walletName) REFERENCES Wallet(name));");
+	}
+
+	public static ArrayList<Record> getAll() {
+		String sql = "SELECT * FROM Record;";
+
+		try {
+			return getResult(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static Record getById(int id) throws SQLException {
@@ -113,21 +125,24 @@ public class RecordTable extends Table {
 		String sql = "SELECT * FROM " + "Record" + ";";
 		return getResult(sql);
 	}
+
 	public static ArrayList<Record> getByWallet(String wallet) throws SQLException {
 		String sql = "SELECT * FROM Record WHERE walletName = '" + wallet + "'";
 		ArrayList<Record> result = new ArrayList<Record>();
-		
+
 		ResultSet rs = DBManager.selectStmt(sql);
-		while(rs.next()) {
+		while (rs.next()) {
 			result.add(new Record(rs.getString("timestamp"), rs.getInt("recordId"), rs.getString("description"),
 					rs.getDouble("value"), rs.getString("walletName")));
-			}
+		}
 		return result;
 	}
+
 	public static void deleteById(int id) throws Exception {
 		Record rec = getById(id);
 		String sql = "DELETE FROM Record WHERE recordId=" + id;
-		String walletString = "UPDATE Wallet SET balance=balance-"+rec.getValue() + " WHERE name='"+rec.getWallet()+"';" ;
+		String walletString = "UPDATE Wallet SET balance=balance-" + rec.getValue() + " WHERE name='" + rec.getWallet()
+				+ "';";
 		try {
 			DBManager.executeStatement(sql);
 			DBManager.executeStatement(walletString);

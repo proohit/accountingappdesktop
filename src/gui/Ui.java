@@ -9,7 +9,9 @@ import DBTables.WalletTable;
 import data.Record;
 import gui.months.MonthsBox;
 import gui.operations.OperationsBox;
+import gui.operations.buttonHandler.SearchSettingsClickHandler;
 import gui.records.RecordsTableView;
+import gui.settings.SearchSettings;
 import gui.wallets.WalletBox;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -23,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -84,13 +87,15 @@ public class Ui extends Application {
 	}
 
 	private void initializeSearchBar() {
-		//Setting Button, um Suchoptionen festzulegen
+		// Setting Button, um Suchoptionen festzulegen
 		middleAnchor = new AnchorPane();
 		HBox searchBar = new HBox(4);
 		TextField searchField = new TextField();
 		Button gearButton = new Button();
-		Image gearIcon = new Image("file:res/gear_icon.png",20, 20, false, false);
+		gearButton.setOnAction(new SearchSettingsClickHandler());
+		Image gearIcon = new Image("file:res/gear_icon.png", 20, 20, false, false);
 		gearButton.setGraphic(new ImageView(gearIcon));
+		gearButton.setTooltip(new Tooltip("configure Search options"));
 		searchBar.getChildren().addAll(gearButton, searchField);
 		searchBar.setAlignment(Pos.CENTER_RIGHT);
 		searchField.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -98,16 +103,27 @@ public class Ui extends Application {
 			@Override
 			public void handle(KeyEvent arg0) {
 				if (arg0.getCode().equals(KeyCode.ENTER)) {
-					
 					ArrayList<Record> searchList = new ArrayList<Record>();
-					ArrayList<Record> currentItems = records.getCurrentItems();
-					currentItems.stream().forEach(item -> {
-						if (item.getDescription().contains(searchField.getText())
-								|| Integer.toString(item.getId()).contains(searchField.getText())
-								|| item.getTimestamp().contains(searchField.getText())) {
-							searchList.add(item);
-						}
-					});
+					if (SearchSettings.isGlobalSearch()) {
+						ArrayList<Record> allItems = RecordTable.getAll();
+						allItems.stream().forEach(item -> {
+							if (item.getDescription().contains(searchField.getText())
+									|| Integer.toString(item.getId()).contains(searchField.getText())
+									|| item.getTimestamp().contains(searchField.getText())) {
+								searchList.add(item);
+							}
+						});
+					} else {
+						ArrayList<Record> currentItems = records.getCurrentItems();
+						currentItems.stream().forEach(item -> {
+							if (item.getDescription().contains(searchField.getText())
+									|| Integer.toString(item.getId()).contains(searchField.getText())
+									|| item.getTimestamp().contains(searchField.getText())) {
+								searchList.add(item);
+							}
+						});
+
+					}
 					records.clear();
 					searchList.stream().forEach(item -> {
 						records.add(item);
@@ -128,7 +144,7 @@ public class Ui extends Application {
 		middleAnchor.getChildren().add(records);
 
 	}
-
+	
 	private void setDb(String dbName) {
 		DBManager.createDB(dbName);
 	}
