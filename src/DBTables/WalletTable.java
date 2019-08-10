@@ -31,27 +31,23 @@ public class WalletTable extends Table {
 		DBManager.executeStatement(sql);
 	}
 
-	public ArrayList<Wallet> getWalletByName(String name) throws SQLException {
-		ArrayList<Wallet> result = new ArrayList<Wallet>();
-		ResultSet rs = getByName(name);
-		while (rs.next()) {
-			result.add(new Wallet(rs.getString("name"), rs.getDouble("balance")));
+	public static ArrayList<Wallet> getWallets() {
+		try {
+			ArrayList<Wallet> result = new ArrayList<Wallet>();
+			ResultSet rs = DBManager.selectStmt("SELECT * FROM WALLET");
+			while (rs.next()) {
+				result.add(new Wallet(rs.getString("name"), rs.getDouble("balance")));
+			}
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return result;
-	}
-
-	public static ArrayList<Wallet> getWallets() throws SQLException {
-		ArrayList<Wallet> result = new ArrayList<Wallet>();
-		ResultSet rs = DBManager.selectStmt("SELECT * FROM WALLET");
-		while (rs.next()) {
-			result.add(new Wallet(rs.getString("name"), rs.getDouble("balance")));
-		}
-		return result;
+		return new ArrayList<Wallet>();
 	}
 
 	public static void setBalance(String walletName, double initial) {
 		try {
-			DBManager.executeStatement("UPDATE Wallet SET balance=" + initial + " WHERE name='" + walletName + "';" );
+			DBManager.executeStatement("UPDATE Wallet SET balance=" + initial + " WHERE name='" + walletName + "';");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,6 +57,18 @@ public class WalletTable extends Table {
 	public static void updateBalance(String walletName, double update) throws SQLException {
 		DBManager.executeStatement(
 				"UPDATE Wallet SET balance=balance+" + update + " WHERE name=" + "'" + walletName + "';");
+	}
+
+	public static Wallet getWalletByName(String name) {
+		String sql = "SELECT * FROM Wallet WHERE name='" + name + "';";
+		try {
+			ResultSet rs = DBManager.selectStmt(sql);
+			rs.next();
+			return new Wallet(rs.getString("name"), rs.getDouble("balance"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static boolean contains(String name) throws Exception {

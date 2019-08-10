@@ -3,7 +3,9 @@ package gui.operations;
 import java.sql.SQLException;
 
 import DBTables.RecordTable;
+import DBTables.WalletTable;
 import data.Record;
+import data.Wallet;
 import gui.operations.buttonHandler.AddClickHandler;
 import gui.operations.buttonHandler.DeleteClickHandler;
 import gui.operations.buttonHandler.EditClickHandler;
@@ -14,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
@@ -26,15 +29,16 @@ public class RecordOperationHandler {
 	static Label valueLabel = new Label("value");
 	static TextField valueField = new TextField();
 	static Label walletLabel = new Label("wallet");
-	static TextField walletField = new TextField();
+	static ComboBox<Wallet> walletList = new ComboBox<Wallet>();
+
 	static Label delIdLabel = new Label("record id");
 	static TextField delIdField = new TextField();
 
 	private static void initializeGrid() {
+
 		operationPane = new GridPane();
 		descriptionField = new TextField();
 		valueField = new TextField();
-		walletField = new TextField();
 		delIdField = new TextField();
 		operationPane.setPrefSize(300, 150);
 		operationPane.setPadding(new Insets(0, 10, 0, 10));
@@ -59,12 +63,14 @@ public class RecordOperationHandler {
 		Button addButton = new Button("add");
 		addButton.setOnAction(new AddClickHandler(addWindow));
 
+		fillWalletList();
+		
 		operationPane.add(descriptionLabel, 0, 0);
 		operationPane.add(descriptionField, 1, 0);
 		operationPane.add(valueLabel, 0, 1);
 		operationPane.add(valueField, 1, 1);
 		operationPane.add(walletLabel, 0, 2);
-		operationPane.add(walletField, 1, 2);
+		operationPane.add(walletList, 1, 2);
 		operationPane.add(addButton, 0, 3);
 		operationPane.add(cancelButton, 1, 3);
 
@@ -94,17 +100,18 @@ public class RecordOperationHandler {
 					operationPane.setPrefSize(300, 150);
 					operationPane.setPadding(new Insets(0, 10, 0, 10));
 					operationPane.setHgap(15);
-					
+
 					descriptionField.setText(rec.getDescription());
 					valueField.setText(Double.toString(rec.getValue()));
-					walletField.setText(rec.getWallet());
+					fillWalletList();
+					walletList.setValue(WalletTable.getWalletByName(rec.getWallet()));
 
 					operationPane.add(descriptionLabel, 0, 0);
 					operationPane.add(descriptionField, 1, 0);
 					operationPane.add(valueLabel, 0, 1);
 					operationPane.add(valueField, 1, 1);
 					operationPane.add(walletLabel, 0, 2);
-					operationPane.add(walletField, 1, 2);
+					operationPane.add(walletList, 1, 2);
 
 					Scene editRecordScene = new Scene(operationPane);
 
@@ -182,6 +189,12 @@ public class RecordOperationHandler {
 		return deleteWindow;
 	}
 
+	private static void fillWalletList() {
+		WalletTable.getWallets().stream().forEach(wallet -> {
+			walletList.getItems().add(wallet);
+		});
+	}
+
 	public static String getDescriptionField() {
 		return descriptionField.getText();
 	}
@@ -191,7 +204,7 @@ public class RecordOperationHandler {
 	}
 
 	public static String getWalletField() {
-		return walletField.getText();
+		return walletList.getValue().getName();
 	}
 
 	public static int getDelId() {
