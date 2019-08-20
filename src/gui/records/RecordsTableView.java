@@ -44,8 +44,8 @@ public class RecordsTableView extends TableView<Record> {
 	public void refreshForMonth(String month) {
 		try {
 			this.clear();
-			currentItems = RecordTable.getByMonth(month);
-			currentItems.stream().forEach(monthItem -> {
+			ArrayList<Record> tempItemList = RecordTable.getByMonth(month);
+			tempItemList.stream().forEach(monthItem -> {
 				this.add(monthItem);
 			});
 		} catch (SQLException e) {
@@ -58,8 +58,8 @@ public class RecordsTableView extends TableView<Record> {
 
 		try {
 			this.clear();
-			currentItems = RecordTable.getByWallet(wallet);
-			currentItems.stream().forEach(walletItem -> {
+			ArrayList<Record> tempItemList = RecordTable.getByWallet(wallet);
+			tempItemList.stream().forEach(walletItem -> {
 				this.add(walletItem);
 			});
 		} catch (Exception e) {

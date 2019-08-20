@@ -190,6 +190,7 @@ public class RecordOperationHandler {
 	}
 
 	private static void fillWalletList() {
+		walletList.getItems().clear();
 		WalletTable.getWallets().stream().forEach(wallet -> {
 			walletList.getItems().add(wallet);
 		});
