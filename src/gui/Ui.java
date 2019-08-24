@@ -3,6 +3,7 @@ package gui;
 import DBConnection.DBManager;
 import DBTables.RecordTable;
 import DBTables.WalletTable;
+import gui.config.Configurator;
 import gui.months.MonthsBox;
 import gui.operations.OperationsBox;
 import gui.records.RecordsTableView;
@@ -27,7 +28,7 @@ public class Ui extends Application {
 	public static RecordsTableView records;
 	static OperationsBox operations;
 	HBox topOperations;
-
+	public static Configurator configurator = new Configurator();
 	RecordTable recordTable;
 	WalletTable walletTable;
 
@@ -64,7 +65,7 @@ public class Ui extends Application {
 
 		stage.show();
 	}
-	
+
 	private void setDb(String dbName) {
 		DBManager.createDB(dbName);
 	}
