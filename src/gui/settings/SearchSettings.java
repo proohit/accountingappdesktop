@@ -1,7 +1,7 @@
 package gui.settings;
 
 public class SearchSettings {
-	static boolean isGlobalSearch = false;
+	static boolean isGlobalSearch = true;
 	
 	
 	public static void setGlobalSearch(boolean isTrue) {

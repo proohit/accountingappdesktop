@@ -28,9 +28,11 @@ public class OperationEventHandler implements EventHandler<ActionEvent> {
 		}
 		case "addWallet": {
 			WalletOperationHandler.addWindow().show();
+			break;
 		}
 		case "editWallet": {
 			WalletOperationHandler.showEditWindow().show();
+			break;
 		}
 		}
 	}

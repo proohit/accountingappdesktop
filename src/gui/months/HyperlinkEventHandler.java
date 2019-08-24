@@ -19,17 +19,7 @@ public class HyperlinkEventHandler implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent arg0) {
-
-		try {
-			Ui.records.clear();
-			ArrayList<Record> records = RecordTable.getByMonth(link.getText());
-			records.stream().forEach(month -> {
-				Ui.records.add(month);
-			});
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			Ui.records.refreshForMonth(link.getText());
 	}
 
 }

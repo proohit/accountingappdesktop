@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import DBTables.RecordTable;
 import data.Record;
+import gui.search.CenterTopAnchor;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,6 +45,7 @@ public class RecordsTableView extends TableView<Record> {
 	public void refreshForMonth(String month) {
 		try {
 			this.clear();
+			CenterTopAnchor.changeCurrentView(month);
 			ArrayList<Record> tempItemList = RecordTable.getByMonth(month);
 			tempItemList.stream().forEach(monthItem -> {
 				this.add(monthItem);
@@ -58,6 +60,7 @@ public class RecordsTableView extends TableView<Record> {
 
 		try {
 			this.clear();
+			CenterTopAnchor.changeCurrentView(wallet);
 			ArrayList<Record> tempItemList = RecordTable.getByWallet(wallet);
 			tempItemList.stream().forEach(walletItem -> {
 				this.add(walletItem);
