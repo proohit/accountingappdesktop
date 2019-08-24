@@ -7,10 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import gui.settings.SearchSettings;
-import jdk.internal.org.jline.utils.InputStreamReader;
-import sun.security.action.OpenFileInputStreamAction;
-
 public class Configurator {
 
 	public Configurator() {

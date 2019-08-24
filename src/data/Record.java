@@ -101,6 +101,6 @@ public class Record {
 	}
 	@Override
 	public String toString() {
-		return recordId + " " + description + " " + walletName + " " + value + " " + getTimestamp();
+		return recordId + " " + description + " " +  value + " " + walletName + " " + getTimestamp();
 	}
 }

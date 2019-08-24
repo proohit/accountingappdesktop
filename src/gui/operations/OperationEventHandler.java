@@ -2,6 +2,7 @@ package gui.operations;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.stage.Stage;
 
 public class OperationEventHandler implements EventHandler<ActionEvent> {
 
@@ -19,7 +20,8 @@ public class OperationEventHandler implements EventHandler<ActionEvent> {
 			break;
 		}
 		case "deleteRecord": {
-			RecordOperationHandler.deleteRecordWindow().show();
+			Stage stage = RecordOperationHandler.deleteRecordWindow();
+			if(stage!=null) stage.show();
 			break;
 		}
 		case "editRecord": {

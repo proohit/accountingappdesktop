@@ -6,6 +6,7 @@ import DBTables.RecordTable;
 import DBTables.WalletTable;
 import data.Record;
 import data.Wallet;
+import gui.Ui;
 import gui.operations.buttonHandler.AddClickHandler;
 import gui.operations.buttonHandler.DeleteClickHandler;
 import gui.operations.buttonHandler.EditClickHandler;
@@ -15,6 +16,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
@@ -64,7 +67,7 @@ public class RecordOperationHandler {
 		addButton.setOnAction(new AddClickHandler(addWindow));
 
 		fillWalletList();
-		
+
 		operationPane.add(descriptionLabel, 0, 0);
 		operationPane.add(descriptionField, 1, 0);
 		operationPane.add(valueLabel, 0, 1);
@@ -82,86 +85,173 @@ public class RecordOperationHandler {
 
 	public static Stage showEditWindow() {
 		initializeGrid();
+		if (Ui.records.getSelectionModel().getSelectedItem() != null) {
+			final Record rec = Ui.records.getSelectionModel().getSelectedItem();
+			Stage editRecordWindow = new Stage();
+			GridPane temp = operationPane;
+			operationPane = new GridPane();
+			operationPane.setPrefSize(300, 150);
+			operationPane.setPadding(new Insets(0, 10, 0, 10));
+			operationPane.setHgap(15);
 
-		final Stage idEditWindow = new Stage();
-		Button okButton = new Button("ok");
-		okButton.setOnAction(new EventHandler<ActionEvent>() {
+			descriptionField.setText(rec.getDescription());
+			valueField.setText(Double.toString(rec.getValue()));
+			fillWalletList();
+			walletList.setValue(WalletTable.getWalletByName(rec.getWallet()));
 
-			@Override
-			public void handle(ActionEvent arg0) {
-				try {
-					final Record rec = RecordTable.getById(getDelId());
+			operationPane.add(descriptionLabel, 0, 0);
+			operationPane.add(descriptionField, 1, 0);
+			operationPane.add(valueLabel, 0, 1);
+			operationPane.add(valueField, 1, 1);
+			operationPane.add(walletLabel, 0, 2);
+			operationPane.add(walletList, 1, 2);
 
-					idEditWindow.hide();
+			Scene editRecordScene = new Scene(operationPane);
 
-					Stage editRecordWindow = new Stage();
-					GridPane temp = operationPane;
-					operationPane = new GridPane();
-					operationPane.setPrefSize(300, 150);
-					operationPane.setPadding(new Insets(0, 10, 0, 10));
-					operationPane.setHgap(15);
+			Button confirmButton = new Button("confirm");
+			confirmButton.setOnAction(new EditClickHandler(editRecordWindow, rec));
+			Button cancelButton = new Button("cancel");
+			cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
-					descriptionField.setText(rec.getDescription());
-					valueField.setText(Double.toString(rec.getValue()));
-					fillWalletList();
-					walletList.setValue(WalletTable.getWalletByName(rec.getWallet()));
-
-					operationPane.add(descriptionLabel, 0, 0);
-					operationPane.add(descriptionField, 1, 0);
-					operationPane.add(valueLabel, 0, 1);
-					operationPane.add(valueField, 1, 1);
-					operationPane.add(walletLabel, 0, 2);
-					operationPane.add(walletList, 1, 2);
-
-					Scene editRecordScene = new Scene(operationPane);
-
-					Button confirmButton = new Button("confirm");
-					confirmButton.setOnAction(new EditClickHandler(editRecordWindow, rec));
-					Button cancelButton = new Button("cancel");
-					cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-						@Override
-						public void handle(ActionEvent arg0) {
-							// TODO Auto-generated method stub
-							operationPane = temp;
-							editRecordWindow.hide();
-							idEditWindow.show();
-						}
-					});
-
-					operationPane.add(confirmButton, 0, 3);
-					operationPane.add(cancelButton, 1, 3);
-
-					editRecordWindow.setScene(editRecordScene);
-					editRecordWindow.show();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				@Override
+				public void handle(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					operationPane = temp;
+					editRecordWindow.hide();
 				}
-			}
-		});
+			});
 
-		Button cancelButton = new Button("cancel");
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+			operationPane.add(confirmButton, 0, 3);
+			operationPane.add(cancelButton, 1, 3);
 
-			@Override
-			public void handle(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				idEditWindow.hide();
-			}
-		});
-		operationPane.add(delIdLabel, 0, 0);
-		operationPane.add(delIdField, 1, 0);
-		operationPane.add(okButton, 0, 1);
-		operationPane.add(cancelButton, 1, 1);
-		Scene addScene = new Scene(operationPane);
+			editRecordWindow.setScene(editRecordScene);
+			return editRecordWindow;
+		} else {
+			final Stage idEditWindow = new Stage();
+			Button okButton = new Button("ok");
+			okButton.setOnAction(new EventHandler<ActionEvent>() {
 
-		idEditWindow.setScene(addScene);
+				@Override
+				public void handle(ActionEvent arg0) {
+					try {
+						final Record rec = RecordTable.getById(getDelId());
 
-		return idEditWindow;
+						idEditWindow.hide();
+
+						Stage editRecordWindow = new Stage();
+						GridPane temp = operationPane;
+						operationPane = new GridPane();
+						operationPane.setPrefSize(300, 150);
+						operationPane.setPadding(new Insets(0, 10, 0, 10));
+						operationPane.setHgap(15);
+
+						descriptionField.setText(rec.getDescription());
+						valueField.setText(Double.toString(rec.getValue()));
+						fillWalletList();
+						walletList.setValue(WalletTable.getWalletByName(rec.getWallet()));
+
+						operationPane.add(descriptionLabel, 0, 0);
+						operationPane.add(descriptionField, 1, 0);
+						operationPane.add(valueLabel, 0, 1);
+						operationPane.add(valueField, 1, 1);
+						operationPane.add(walletLabel, 0, 2);
+						operationPane.add(walletList, 1, 2);
+
+						Scene editRecordScene = new Scene(operationPane);
+
+						Button confirmButton = new Button("confirm");
+						confirmButton.setOnAction(new EditClickHandler(editRecordWindow, rec));
+						Button cancelButton = new Button("cancel");
+						cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+
+							@Override
+							public void handle(ActionEvent arg0) {
+								// TODO Auto-generated method stub
+								operationPane = temp;
+								editRecordWindow.hide();
+								idEditWindow.show();
+							}
+						});
+
+						operationPane.add(confirmButton, 0, 3);
+						operationPane.add(cancelButton, 1, 3);
+
+						editRecordWindow.setScene(editRecordScene);
+						editRecordWindow.show();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+
+			Button cancelButton = new Button("cancel");
+			cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					idEditWindow.hide();
+				}
+			});
+			operationPane.add(delIdLabel, 0, 0);
+			operationPane.add(delIdField, 1, 0);
+			operationPane.add(okButton, 0, 1);
+			operationPane.add(cancelButton, 1, 1);
+			Scene addScene = new Scene(operationPane);
+
+			idEditWindow.setScene(addScene);
+
+			return idEditWindow;
+		}
 	}
 
 	public static Stage deleteRecordWindow() {
+		if (Ui.records.getSelectionModel().getSelectedItem() != null) {
+			Record rec = Ui.records.getSelectionModel().getSelectedItem();
+			Stage confirmStage = new Stage();
+			GridPane operationPane = new GridPane();
+			operationPane.setPrefSize(360, 100);
+			operationPane.setPadding(new Insets(0, 10, 0, 10));
+			operationPane.setHgap(15);
+
+			Label confirmLabel = new Label();
+			confirmLabel.setText("Are you sure you want to delete \n" + rec.toString());
+			Button okButton = new Button("ok");
+			Button cancelButton = new Button("cancel");
+
+			okButton.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					try {
+						confirmStage.hide();
+						RecordTable.deleteById(rec.getId());
+						Ui.wallets.refreshAll();
+						Ui.records.refreshForMonth(rec.getYear() + "-" + rec.getMonth());
+					} catch (Exception e) {
+						Alert error = new Alert(AlertType.ERROR);
+						error.setContentText(e.getMessage());
+						error.show();
+					}
+				}
+			});
+			cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					confirmStage.hide();
+				}
+			});
+
+			operationPane.add(confirmLabel, 1, 0);
+			operationPane.add(okButton, 0, 1);
+			operationPane.add(cancelButton, 2, 1);
+
+			Scene confirmScene = new Scene(operationPane);
+			confirmStage.setScene(confirmScene);
+			return confirmStage;
+		}
 		initializeGrid();
 		GridPane.setHgrow(delIdField, Priority.SOMETIMES);
 		final Stage deleteWindow = new Stage();
