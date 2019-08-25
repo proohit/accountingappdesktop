@@ -25,7 +25,6 @@ public class DBManager {
 
 	public static void createDB(String dbName) {
 		name = dbName;
-		if (!DBConnection.connected()) {
 			try {
 				DBConnection.connect(dbName);
 				DatabaseMetaData meta = DBConnection.conn.getMetaData();
@@ -35,7 +34,6 @@ public class DBManager {
 				e.printStackTrace();
 				log("Couldn't create DB.");
 			}
-		}
 	}
 
 	/*

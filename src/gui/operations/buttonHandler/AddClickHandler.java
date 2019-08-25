@@ -1,5 +1,7 @@
 package gui.operations.buttonHandler;
 
+import java.sql.SQLException;
+
 import DBTables.RecordTable;
 import data.Record;
 import gui.Ui;
@@ -28,6 +30,7 @@ public class AddClickHandler implements EventHandler<ActionEvent> {
 			Ui.records.refreshForMonth(rec.getYear() + "-" + rec.getMonth());
 			Ui.wallets.refreshAll();
 			Ui.months.refreshAll();
+			RecordOperationHandler.getWalletList().getItems().clear();
 		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setContentText(e.getMessage());

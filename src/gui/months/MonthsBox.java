@@ -20,6 +20,10 @@ public class MonthsBox extends VBox {
 
 	public void refreshAll() {
 		try {
+			this.getChildren().clear();
+			Label monthsLabel = new Label("Months");
+			monthsLabel.setStyle("-fx-font-size: 14px;");
+			this.add(monthsLabel);
 			ArrayList<String> months = RecordTable.getMonths();
 			months.stream().forEach(month -> {
 				MonthHyperlink monthLink = new MonthHyperlink(month);

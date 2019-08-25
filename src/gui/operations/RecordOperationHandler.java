@@ -60,6 +60,7 @@ public class RecordOperationHandler {
 			@Override
 			public void handle(ActionEvent event) {
 				addWindow.hide();
+				walletList.getItems().clear();
 			}
 		});
 
@@ -86,6 +87,7 @@ public class RecordOperationHandler {
 	public static Stage showEditWindow() {
 		initializeGrid();
 		if (Ui.records.getSelectionModel().getSelectedItem() != null) {
+			
 			final Record rec = Ui.records.getSelectionModel().getSelectedItem();
 			Stage editRecordWindow = new Stage();
 			GridPane temp = operationPane;
@@ -118,6 +120,7 @@ public class RecordOperationHandler {
 					// TODO Auto-generated method stub
 					operationPane = temp;
 					editRecordWindow.hide();
+					Ui.records.getSelectionModel().clearSelection();
 				}
 			});
 
@@ -170,6 +173,7 @@ public class RecordOperationHandler {
 								operationPane = temp;
 								editRecordWindow.hide();
 								idEditWindow.show();
+								walletList.getItems().clear();
 							}
 						});
 
@@ -300,5 +304,9 @@ public class RecordOperationHandler {
 
 	public static int getDelId() {
 		return Integer.parseInt(delIdField.getText());
+	}
+	
+	public static ComboBox<Wallet> getWalletList() {
+		return walletList;
 	}
 }

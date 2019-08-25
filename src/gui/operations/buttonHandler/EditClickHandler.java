@@ -25,6 +25,8 @@ public class EditClickHandler implements EventHandler<ActionEvent> {
 			RecordTable.updateRecord(rec, RecordOperationHandler.getValueField(), RecordOperationHandler.getDescriptionField(), RecordOperationHandler.getWalletField());
 			Ui.records.refreshForMonth(rec.getYear() + "-" + rec.getMonth());
 			Ui.wallets.refreshAll();
+			Ui.records.getSelectionModel().clearSelection();
+			RecordOperationHandler.getWalletList().getItems().clear();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
