@@ -25,21 +25,22 @@ public class Configurator {
 		try {
 			String[] entryStrings = entry.split("=");
 			String key = entryStrings[0];
-			String value = entryStrings[1];
 			File file = openConfigFile();
 			FileReader fr = new FileReader(file);
-			FileWriter fw = new FileWriter(file, true);
+			FileWriter fw = new FileWriter(file);
 			BufferedReader br = new BufferedReader(fr);
 			BufferedWriter bw = new BufferedWriter(fw);
 			String lineString;
+			String newFile = "";
 			while ((lineString = br.readLine()) != null) {
 				if (lineString.contains(key))
 					continue;
 				else {
-					bw.append(lineString);
+					newFile+=lineString+"\n";
 				}
 			}
-			bw.append(entry);
+			newFile+=entry+"\n";
+			fw.write(newFile);
 			bw.close();
 			br.close();
 			fw.close();

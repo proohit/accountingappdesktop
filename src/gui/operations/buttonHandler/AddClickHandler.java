@@ -27,6 +27,7 @@ public class AddClickHandler implements EventHandler<ActionEvent> {
 			rec = RecordTable.getById(rec.getId());
 			Ui.records.refreshForMonth(rec.getYear() + "-" + rec.getMonth());
 			Ui.wallets.refreshAll();
+			Ui.months.refreshAll();
 		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setContentText(e.getMessage());

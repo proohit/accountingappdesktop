@@ -10,11 +10,12 @@ public class DBConnection {
 
 	public static void connect(String Path) {
 		try {
-			if (conn == null) {
-				String url = "jdbc:sqlite:" + Path + ".db";
-				conn = DriverManager.getConnection(url);
-				System.out.println("Connection to DB established.");
+			if (conn != null) {
+				conn.close();
 			}
+			String url = "jdbc:sqlite:" + Path;
+			conn = DriverManager.getConnection(url);
+			System.out.println("Connection to DB established.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Couldn't connect to DB.");

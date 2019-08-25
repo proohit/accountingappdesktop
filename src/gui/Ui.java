@@ -4,6 +4,7 @@ import DBConnection.DBManager;
 import DBTables.RecordTable;
 import DBTables.WalletTable;
 import gui.config.Configurator;
+import gui.database.DatabaseBox;
 import gui.months.MonthsBox;
 import gui.operations.OperationsBox;
 import gui.records.RecordsTableView;
@@ -20,26 +21,26 @@ import javafx.stage.Stage;
 
 public class Ui extends Application {
 	BorderPane layout;
-	static MonthsBox months;
+	public static MonthsBox months;
 	static ScrollPane monthsScrollPane;
 	static CenterTopAnchor middleAnchor;
 	static ScrollPane walletsScrollPane;
 	public static WalletBox wallets;
 	public static RecordsTableView records;
 	static OperationsBox operations;
-	HBox topOperations;
+	static DatabaseBox topOperations;
 	public static Configurator configurator = new Configurator();
 	RecordTable recordTable;
 	WalletTable walletTable;
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		setDb("Accounting");
+		//setDb("Accounting");
 		recordTable = new RecordTable();
 		walletTable = new WalletTable();
 
 		layout = new BorderPane();
-
+		topOperations = new DatabaseBox();
 		records = new RecordsTableView();
 		middleAnchor = new CenterTopAnchor();
 		months = new MonthsBox();
@@ -59,10 +60,11 @@ public class Ui extends Application {
 		layout.setBottom(walletsScrollPane);
 		layout.setCenter(middleAnchor);
 		layout.setRight(operations);
+		layout.setTop(topOperations);
 		stage.setScene(new Scene(layout));
 		stage.setTitle("Accounting App");
 		GridPane.setHalignment(operations, HPos.CENTER);
-
+		topOperations.initialize();
 		stage.show();
 	}
 
