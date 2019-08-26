@@ -1,14 +1,22 @@
 package gui.records;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import DBConnection.DBManager;
 import DBTables.RecordTable;
 import data.Record;
+import gui.Ui;
 import gui.search.CenterTopAnchor;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.TransferMode;
+import javafx.stage.Stage;
 
 public class RecordsTableView extends TableView<Record> {
 	final int COLUMNS_COUNT = 5;
@@ -40,6 +48,32 @@ public class RecordsTableView extends TableView<Record> {
 		this.getColumns().add(valueColumn);
 		this.getColumns().add(walletColumn);
 		this.getColumns().add(timestampColumn);
+		this.setOnDragOver(new EventHandler<DragEvent>() {
+			@Override
+			public void handle(DragEvent dragEvent) {
+				if(dragEvent.getDragboard().hasFiles()) {
+					dragEvent.acceptTransferModes(TransferMode.ANY);
+				}
+			}
+		});
+		this.setOnDragDropped(new EventHandler<DragEvent>() {
+			@Override
+			public void handle(DragEvent dragEvent) {
+				File draggedFile = dragEvent.getDragboard().getFiles().get(0);
+				if (draggedFile != null) {
+					DBManager.createDB(draggedFile.getAbsolutePath());
+					Ui.months.refreshAll();
+					Ui.wallets.refreshAll();
+					Ui.records.clear();
+					((Stage) getScene().getWindow()).setTitle("Accounting App - " + draggedFile.getName());
+					Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
+					confirmation.setContentText("the database has been loaded from " + draggedFile.getAbsolutePath());
+					confirmation.show();
+					dragEvent.setDropCompleted(true);
+					dragEvent.consume();
+				}
+			}
+		});
 	}
 
 	public void refreshForMonth(String month) {
