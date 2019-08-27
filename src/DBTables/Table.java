@@ -36,7 +36,7 @@ public abstract class Table {
 			while (rs.next()) {
 				Iterator<String> iterator = columns.keySet().iterator();
 				while (iterator.hasNext()) {
-					System.out.print(rs.getObject(iterator.next().toString()) + " ");
+					System.out.print(rs.getObject(iterator.next()));
 				}
 				System.out.println();
 			}

@@ -19,6 +19,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import java.io.File;
+
 public class Ui extends Application {
 	BorderPane layout;
 	public static MonthsBox months;
@@ -65,7 +67,17 @@ public class Ui extends Application {
 		stage.setTitle("Accounting App");
 		GridPane.setHalignment(operations, HPos.CENTER);
 		topOperations.initialize();
-		stage.show();
+
+        if(configurator.getDefaultDb()!=null) {
+            String defaultDb = configurator.getDefaultDb();
+            File dbFile = new File(defaultDb);
+            setDb(defaultDb);
+            stage.setTitle("AccountingApp - " + dbFile.getName());
+            months.refreshAll();
+            wallets.refreshAll();
+        }
+
+        stage.show();
 	}
 
 	private void setDb(String dbName) {

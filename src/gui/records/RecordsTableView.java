@@ -10,9 +10,7 @@ import data.Record;
 import gui.Ui;
 import gui.search.CenterTopAnchor;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
@@ -71,6 +69,24 @@ public class RecordsTableView extends TableView<Record> {
 					confirmation.show();
 					dragEvent.setDropCompleted(true);
 					dragEvent.consume();
+					confirmation.setOnHidden(new EventHandler<DialogEvent>() {
+						@Override
+						public void handle(DialogEvent event) {
+							if(!Ui.configurator.isDefault(draggedFile.getAbsolutePath())) {
+								ButtonType yes = new ButtonType("yes");
+								ButtonType no = new ButtonType("no");
+								Alert confirmation = new Alert(Alert.AlertType.NONE, "would you like to save this database as default? \n" +
+										"everytime you open the app, this database will be opened", yes, no);
+								confirmation.showAndWait().ifPresent(result -> {
+									if(result == yes) {
+										Ui.configurator.writeEntry("defaultDb=" + draggedFile.getAbsolutePath());
+									} else if(result == no) {
+										confirmation.close();
+									}
+								});
+							}
+						}
+					});
 				}
 			}
 		});

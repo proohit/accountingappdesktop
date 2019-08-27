@@ -23,7 +23,7 @@ public class DBConnection {
 	}
 
 	public static boolean connected() {
-		return conn != null ? true : false;
+		return conn != null;
 	}
 	public static Connection getConnection() {
 		if(connected()) return conn;

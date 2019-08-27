@@ -9,8 +9,7 @@ import DBTables.WalletTable;
 import gui.Ui;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Hyperlink;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
@@ -47,9 +46,28 @@ public class DatabaseBox extends HBox {
 					Ui.months.refreshAll();
 					Ui.wallets.refreshAll();
 					stage.setTitle("Accounting App - " + newFile.getName());
-					Alert confirmation = new Alert(AlertType.INFORMATION);
-					confirmation.setContentText("the database has been created at " + newFile.getAbsolutePath());
-					confirmation.show();
+					Alert createdDb = new Alert(AlertType.INFORMATION);
+					createdDb.setContentText("the database has been created at " + newFile.getAbsolutePath());
+					createdDb.show();
+
+					createdDb.setOnHidden(new EventHandler<DialogEvent>() {
+						@Override
+						public void handle(DialogEvent event) {
+							if(!Ui.configurator.isDefault(newFile.getAbsolutePath())) {
+								ButtonType yes = new ButtonType("yes");
+								ButtonType no = new ButtonType("no");
+								Alert confirmation = new Alert(AlertType.NONE, "would you like to save this database as default? \n" +
+										"everytime you open the app, this database will be opened", yes, no);
+								confirmation.showAndWait().ifPresent(result -> {
+									if(result == yes) {
+										Ui.configurator.writeEntry("defaultDb=" + newFile.getAbsolutePath());
+									} else if(result == no) {
+										confirmation.close();
+									}
+								});
+							}
+						}
+					});
 				}
 			}
 		});
@@ -69,6 +87,25 @@ public class DatabaseBox extends HBox {
 					Alert confirmation = new Alert(AlertType.INFORMATION);
 					confirmation.setContentText("the database has been loaded from " + existingFile.getAbsolutePath());
 					confirmation.show();
+
+					confirmation.setOnHidden(new EventHandler<DialogEvent>() {
+						@Override
+						public void handle(DialogEvent event) {
+							if(!Ui.configurator.isDefault(existingFile.getAbsolutePath())) {
+								ButtonType yes = new ButtonType("yes");
+								ButtonType no = new ButtonType("no");
+								Alert confirmation = new Alert(AlertType.NONE, "would you like to save this database as default? \n" +
+										"everytime you open the app, this database will be opened", yes, no);
+								confirmation.showAndWait().ifPresent(result -> {
+									if(result == yes) {
+										Ui.configurator.writeEntry("defaultDb=" + existingFile.getAbsolutePath());
+									} else if(result == no) {
+										confirmation.close();
+									}
+								});
+							}
+						}
+					});
 				}
 			}
 		});
