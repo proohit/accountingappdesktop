@@ -44,6 +44,8 @@ public class DatabaseBox extends HBox {
 						e.printStackTrace();
 					}
 					Ui.records.clear();
+					Ui.months.refreshAll();
+					Ui.wallets.refreshAll();
 					stage.setTitle("Accounting App - " + newFile.getName());
 					Alert confirmation = new Alert(AlertType.INFORMATION);
 					confirmation.setContentText("the database has been created at " + newFile.getAbsolutePath());
