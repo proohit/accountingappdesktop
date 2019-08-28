@@ -15,7 +15,6 @@ public class DeleteClickHandler implements EventHandler<ActionEvent> {
 	
 	public DeleteClickHandler(Stage deleteWindow) {
 		this.deleteWindow=deleteWindow;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

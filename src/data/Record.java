@@ -24,7 +24,6 @@ public class Record {
 		try {
 			this.timestamp2 = parseDate(timestamp);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.timestamp=this.getTimestamp();

@@ -39,7 +39,6 @@
 //			walletTable.getWalletByName("Bar").stream().forEach(wallet -> print(wallet));
 //		} catch (Exception e) {
 //			e.printStackTrace();
-//			// TODO: handle exception
 //		}
 //	}
 //

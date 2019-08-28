@@ -101,7 +101,6 @@ public class RecordsTableView extends TableView<Record> {
 				this.add(monthItem);
 			});
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -116,7 +115,6 @@ public class RecordsTableView extends TableView<Record> {
 				this.add(walletItem);
 			});
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
 

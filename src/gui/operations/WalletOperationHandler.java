@@ -47,7 +47,6 @@ public class WalletOperationHandler {
 					Ui.wallets.refreshAll();
 					addWindow.hide();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

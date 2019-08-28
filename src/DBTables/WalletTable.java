@@ -49,7 +49,6 @@ public class WalletTable extends Table {
 		try {
 			DBManager.executeStatement("UPDATE Wallet SET balance=" + initial + " WHERE name='" + walletName + "';");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

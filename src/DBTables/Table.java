@@ -17,7 +17,6 @@ public abstract class Table {
 		try {
 			DBManager.executeStatement("DROP TABLE IF EXISTS " + tableName);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

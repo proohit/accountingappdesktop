@@ -16,7 +16,6 @@ public class Configurator {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return file;
@@ -66,7 +65,6 @@ public class Configurator {
             bw.close();
             fw.close();
         } catch (Exception e) {
-            // TODO: handle exception
         }
 
     }

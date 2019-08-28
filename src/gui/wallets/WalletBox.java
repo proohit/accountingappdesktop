@@ -21,7 +21,6 @@ public class WalletBox extends HBox {
 				this.add(walletLink);
 			});
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
 	

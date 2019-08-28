@@ -19,7 +19,6 @@ public class EditClickHandler implements EventHandler<ActionEvent> {
 	}
 	@Override
 	public void handle(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		try {
 			editRecordWindow.hide();
 			RecordTable.updateRecord(rec, RecordOperationHandler.getValueField(), RecordOperationHandler.getDescriptionField(), RecordOperationHandler.getWalletField());
@@ -28,7 +27,6 @@ public class EditClickHandler implements EventHandler<ActionEvent> {
 			Ui.records.getSelectionModel().clearSelection();
 			RecordOperationHandler.getWalletList().getItems().clear();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

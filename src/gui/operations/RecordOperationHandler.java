@@ -117,7 +117,6 @@ public class RecordOperationHandler {
 
 				@Override
 				public void handle(ActionEvent arg0) {
-					// TODO Auto-generated method stub
 					operationPane = temp;
 					editRecordWindow.hide();
 					Ui.records.getSelectionModel().clearSelection();
@@ -169,7 +168,6 @@ public class RecordOperationHandler {
 
 							@Override
 							public void handle(ActionEvent arg0) {
-								// TODO Auto-generated method stub
 								operationPane = temp;
 								editRecordWindow.hide();
 								idEditWindow.show();
@@ -183,7 +181,6 @@ public class RecordOperationHandler {
 						editRecordWindow.setScene(editRecordScene);
 						editRecordWindow.show();
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -194,7 +191,6 @@ public class RecordOperationHandler {
 
 				@Override
 				public void handle(ActionEvent arg0) {
-					// TODO Auto-generated method stub
 					idEditWindow.hide();
 				}
 			});

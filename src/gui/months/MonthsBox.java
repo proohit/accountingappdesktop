@@ -30,7 +30,6 @@ public class MonthsBox extends VBox {
 				this.add(monthLink);
 			});
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
 	
