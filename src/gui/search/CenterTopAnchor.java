@@ -7,7 +7,6 @@ import data.Record;
 import gui.Ui;
 import gui.operations.buttonHandler.SearchSettingsClickHandler;
 import gui.settings.SearchSettings;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
@@ -49,6 +48,7 @@ public class CenterTopAnchor extends AnchorPane {
 				if (arg0.getCode().equals(KeyCode.ENTER)) {
 					ArrayList<Record> searchList = new ArrayList<Record>();
 					if (SearchSettings.isGlobalSearch()) {
+						//TODO < > operatoren einbauen
 						ArrayList<Record> allItems = RecordTable.getAll();
 						allItems.stream().forEach(item -> {
 							if (item.getDescription().contains(searchField.getText())

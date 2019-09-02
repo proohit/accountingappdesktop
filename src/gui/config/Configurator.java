@@ -1,10 +1,8 @@
 package gui.config;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Scanner;
 
 public class Configurator {
 
@@ -55,7 +53,6 @@ public class Configurator {
             String newFile = "";
             for (String line : content) {
                 if (line.contains(key)) {
-                    continue;
                 } else {
                     newFile += line + "\n";
                 }
@@ -68,12 +65,20 @@ public class Configurator {
         }
 
     }
+
     public String getDefaultDb() {
         return getValue("defaultDb");
     }
+
     public boolean isDefault(String path) {
         String value = getValue("defaultDb");
         if (value == null) return false;
-        return value.equals(path);
+        return !value.equals(path);
+    }
+
+    public boolean isGlobalSearch() {
+        String value = getValue("isGlobalSearch");
+        if(value==null) return false;
+        return value.equals("true")?true:false;
     }
 }

@@ -14,7 +14,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 public class DatabaseBox extends HBox {
 
@@ -53,7 +52,7 @@ public class DatabaseBox extends HBox {
 					createdDb.setOnHidden(new EventHandler<DialogEvent>() {
 						@Override
 						public void handle(DialogEvent event) {
-							if(!Ui.configurator.isDefault(newFile.getAbsolutePath())) {
+							if(Ui.configurator.isDefault(newFile.getAbsolutePath())) {
 								ButtonType yes = new ButtonType("yes");
 								ButtonType no = new ButtonType("no");
 								Alert confirmation = new Alert(AlertType.NONE, "would you like to save this database as default? \n" +
@@ -91,7 +90,7 @@ public class DatabaseBox extends HBox {
 					confirmation.setOnHidden(new EventHandler<DialogEvent>() {
 						@Override
 						public void handle(DialogEvent event) {
-							if(!Ui.configurator.isDefault(existingFile.getAbsolutePath())) {
+							if(Ui.configurator.isDefault(existingFile.getAbsolutePath())) {
 								ButtonType yes = new ButtonType("yes");
 								ButtonType no = new ButtonType("no");
 								Alert confirmation = new Alert(AlertType.NONE, "would you like to save this database as default? \n" +

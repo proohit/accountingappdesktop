@@ -1,10 +1,5 @@
 package gui.months;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-import DBTables.RecordTable;
-import data.Record;
 import gui.Ui;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

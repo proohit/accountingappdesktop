@@ -1,7 +1,5 @@
 package gui.operations.buttonHandler;
 
-import java.sql.SQLException;
-
 import DBTables.RecordTable;
 import data.Record;
 import gui.Ui;

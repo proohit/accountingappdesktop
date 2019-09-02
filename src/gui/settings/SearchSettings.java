@@ -12,6 +12,6 @@ public class SearchSettings {
 	}
 	
 	public static boolean isGlobalSearch() {
-		return isGlobalSearch;
+		return Ui.configurator.isGlobalSearch();
 	}
 }
