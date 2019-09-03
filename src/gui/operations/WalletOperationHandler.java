@@ -14,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class WalletOperationHandler {
@@ -36,7 +37,7 @@ public class WalletOperationHandler {
 	public static Stage addWindow() {
 		initializeGrid();
 		final Stage addWindow = new Stage();
-
+		addWindow.initModality(Modality.APPLICATION_MODAL);
 		Button okButton = new Button("add");
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -73,7 +74,7 @@ public class WalletOperationHandler {
 	public static Stage showEditWindow() {
 		initializeGrid();
 		final Stage nameEditWindow = new Stage();
-
+		nameEditWindow.initModality(Modality.APPLICATION_MODAL);
 		Button okButton = new Button("ok");
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -81,6 +82,7 @@ public class WalletOperationHandler {
 			public void handle(ActionEvent arg0) {
 				nameEditWindow.hide();
 				final Stage editWindow = new Stage();
+				editWindow.initModality(Modality.APPLICATION_MODAL);
 				GridPane temp = operationPane;
 				operationPane = new GridPane();
 				operationPane.setPrefSize(300, 150);
