@@ -31,6 +31,7 @@ public class DatabaseBox extends HBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("create new Database");
 				fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Database File", "*.db"));
 				File newFile = fileChooser.showSaveDialog(stage);
 				if (newFile != null) {
@@ -76,6 +77,8 @@ public class DatabaseBox extends HBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("open existing database");
+				fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Database File", "*.db"));
 				File existingFile = fileChooser.showOpenDialog(stage);
 				if (existingFile != null) {
 					DBManager.createDB(existingFile.getAbsolutePath());
