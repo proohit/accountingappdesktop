@@ -35,7 +35,7 @@ public class CenterTopAnchor extends AnchorPane {
 	static StringProperty currentViewString = new SimpleStringProperty("none");
 	public CenterTopAnchor() {
 		gearButton.setOnAction(new SearchSettingsClickHandler());
-		Image gearIcon = new Image("file:resources/gear_icon.png", 20, 20, false, false);
+		Image gearIcon = new Image("file:res/gear_icon.png", 20, 20, false, false);
 		gearButton.setGraphic(new ImageView(gearIcon));
 		gearButton.setTooltip(new Tooltip("configure Search options"));
 		searchBar.getChildren().addAll(gearButton, searchField);

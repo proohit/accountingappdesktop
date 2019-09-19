@@ -31,6 +31,7 @@ public class SearchSettingsClickHandler implements EventHandler<ActionEvent> {
                 + "when this is disabled, the given String will be searched across the last selected records (e.g. a month)"));
         Label fileLabel = new Label("default database");
         TextArea filePath = new TextArea();
+        filePath.setTooltip(new Tooltip("in this field, you can specify a default database which will automatically load upon starting the app."));
         filePath.setPrefHeight(40);
         filePath.setPrefWidth(300);
         if(Ui.configurator.getDefaultDb() != null) filePath.setText(Ui.configurator.getDefaultDb());

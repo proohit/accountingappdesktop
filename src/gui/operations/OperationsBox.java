@@ -34,6 +34,12 @@ public class OperationsBox extends VBox {
 		this.add(new OperationHyperlink("add wallet...", "addWallet"));
 		this.add(new OperationHyperlink("edit wallet...", "editWallet"));
 		this.setAlignment(Pos.TOP_CENTER);
+
+		Separator seperator3 = new Separator();
+		this.getChildren().add(seperator3);
+
+		this.add(new OperationHyperlink("evaluate month" , "evalMonth"));
+
 	}
 
 	public void add(Label label) {
