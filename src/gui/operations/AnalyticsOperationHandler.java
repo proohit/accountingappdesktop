@@ -46,7 +46,8 @@ public class AnalyticsOperationHandler {
             }
         });
 
-        Button addButton = new Button("add");
+        Button addButton = new Button("evaluate");
+
         addButton.setOnAction(new EvaluateMonthClickHandler());
 
         fillMonthList();
@@ -71,5 +72,9 @@ public class AnalyticsOperationHandler {
         } catch (SQLException e) {
 
         }
+    }
+
+    public static String getMonthSelection() {
+        return monthList.getValue();
     }
 }

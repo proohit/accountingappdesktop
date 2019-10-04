@@ -1,9 +1,13 @@
 package DBTables;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import DBConnection.DBConnection;
 import DBConnection.DBManager;
@@ -19,7 +23,14 @@ public class RecordTable extends Table {
         columns.put("walletName", "varchar");
         columns.put("timestamp", "datetime");
     }
-
+    public static List<Record> getEvaluationOfMonth(String month) throws SQLException {
+        List<Record> evaluationList= new ArrayList<>();
+        ResultSet rs = DBManager.selectStmt("select sum(value), description from Record where strftime('%Y-%m', timestamp) =='"+month+"' GROUP by description order by sum(value) desc");
+        while(rs.next()) {
+            evaluationList.add(new Record(rs.getString("description"), rs.getDouble("sum(value)"), null));
+        }
+        return evaluationList;
+    }
     public static void insertValues(Record record) throws Exception {
         WalletTable.contains(record.getWallet());
         if (record.getDescription().contains("'")) {
