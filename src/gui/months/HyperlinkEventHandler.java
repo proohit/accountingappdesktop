@@ -1,20 +1,22 @@
 package gui.months;
 
 import gui.Ui;
+import gui.operations.OperationsBox;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 public class HyperlinkEventHandler implements EventHandler<ActionEvent> {
 
-	MonthHyperlink link;
+    MonthHyperlink link;
 
-	HyperlinkEventHandler(MonthHyperlink link) {
-		this.link = link;
-	}
+    HyperlinkEventHandler(MonthHyperlink link) {
+        this.link = link;
+    }
 
-	@Override
-	public void handle(ActionEvent arg0) {
-			Ui.records.refreshForMonth(link.getText());
-	}
+    @Override
+    public void handle(ActionEvent arg0) {
+        Ui.records.refreshForMonth(link.getText());
+		OperationsBox.updateEvalTable(link.getText());
+    }
 
 }
