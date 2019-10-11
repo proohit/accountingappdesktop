@@ -79,6 +79,6 @@ public class Configurator {
     public boolean isGlobalSearch() {
         String value = getValue("isGlobalSearch");
         if(value==null) return false;
-        return value.equals("true")?true:false;
+        return value.equals("true");
     }
 }

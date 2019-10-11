@@ -6,11 +6,9 @@ import gui.operations.AnalyticsOperationHandler;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
@@ -23,6 +21,8 @@ public class EvaluateMonthClickHandler implements EventHandler {
     @Override
     public void handle(Event event) {
         Stage evaluateWindow = new Stage();
+        VBox screen = new VBox();
+
         TableColumn<Record, String> descriptionCol = new TableColumn<>("description");
         TableColumn<Record, Double> valueCol = new TableColumn<>("value");
         descriptionCol.setCellValueFactory(new PropertyValueFactory<Record, String>("description"));
@@ -40,11 +40,19 @@ public class EvaluateMonthClickHandler implements EventHandler {
             }
             List<Record> result = RecordTable.getEvaluationOfMonth(AnalyticsOperationHandler.getMonthSelection());
             result.forEach((record) -> evalTable.getItems().add(record));
+
+            screen.getChildren().add(evalTable);
+            screen.getChildren().add(new Label(Double.toString(RecordTable.getSumOfMonth(AnalyticsOperationHandler.getMonthSelection()))));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Scene evaluateScene = new Scene(evalTable);
+
+
+
+
+        Scene evaluateScene = new Scene(screen);
         evaluateWindow.setScene(evaluateScene);
+        evaluateWindow.setTitle("Evaluation " + AnalyticsOperationHandler.getMonthSelection());
         evaluateWindow.show();
         ((Button) event.getSource()).getScene().getWindow().hide();
     }

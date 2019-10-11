@@ -72,7 +72,7 @@ public class RecordsTableView extends TableView<Record> {
 					confirmation.setOnHidden(new EventHandler<DialogEvent>() {
 						@Override
 						public void handle(DialogEvent event) {
-							if(Ui.configurator.isDefault(draggedFile.getAbsolutePath())) {
+							if(!Ui.configurator.isDefault(draggedFile.getAbsolutePath())) {
 								ButtonType yes = new ButtonType("yes");
 								ButtonType no = new ButtonType("no");
 								Alert confirmation = new Alert(Alert.AlertType.NONE, "would you like to save this database as default? \n" +

@@ -32,7 +32,17 @@ public class Record {
 		this.walletName = walletName;
 		this.value = value;
 	}
-
+	public Record(String timestamp, String description, double value, String walletName) {
+		try {
+			this.timestamp2 = parseDate(timestamp);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		this.timestamp=this.getTimestamp();
+		this.description = description;
+		this.walletName = walletName;
+		this.value = value;
+	}
 	public Calendar parseDate(String date) throws ParseException {
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		timestamp2 = Calendar.getInstance();
@@ -60,7 +70,11 @@ public class Record {
 		return walletName;
 	}
 
-//	private String getTimestampAmPm() {
+	public Calendar getTimestamp2() {
+		return timestamp2;
+	}
+
+	//	private String getTimestampAmPm() {
 //		return getYear() + "-" + getMonth() + "-" + getDay() + " " + getHourAmPm() + ":" + getMinutes() + ":"
 //				+ getSeconds() + " " + (timestamp2.get(Calendar.AM_PM) == 1 ? "PM":"AM");
 //	}

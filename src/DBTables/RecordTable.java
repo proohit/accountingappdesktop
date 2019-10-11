@@ -23,22 +23,36 @@ public class RecordTable extends Table {
         columns.put("walletName", "varchar");
         columns.put("timestamp", "datetime");
     }
+
+    public static double getSumOfMonth(String month) throws SQLException {
+        ResultSet rs = DBManager.selectStmt("select sum(value) from Record where strftime('%Y-%m', timestamp) == '" + month + "';");
+        return rs.getDouble("sum(value)");
+    }
+
     public static List<Record> getEvaluationOfMonth(String month) throws SQLException {
-        List<Record> evaluationList= new ArrayList<>();
-        ResultSet rs = DBManager.selectStmt("select sum(value), description from Record where strftime('%Y-%m', timestamp) =='"+month+"' GROUP by description order by sum(value) desc");
-        while(rs.next()) {
+        List<Record> evaluationList = new ArrayList<>();
+        ResultSet rs = DBManager.selectStmt("select sum(value), description from Record where strftime('%Y-%m', timestamp) =='" + month + "' GROUP by description order by sum(value) desc");
+        while (rs.next()) {
             evaluationList.add(new Record(rs.getString("description"), rs.getDouble("sum(value)"), null));
         }
         return evaluationList;
     }
+
     public static void insertValues(Record record) throws Exception {
         WalletTable.contains(record.getWallet());
         if (record.getDescription().contains("'")) {
             record.setDescription(record.getDescription().replaceAll("'", "''"));
         }
-        String sql = "INSERT INTO " + "Record" + "(" + "description," + "value," + "timestamp," + "walletName)"
-                + "VALUES('" + record.getDescription() + "'," + record.getValue() + "," + "DATETIME('now')" + ", '"
-                + record.getWallet() + "');";
+        String sql;
+        if (record.getTimestamp2() == null) {
+            sql = "INSERT INTO " + "Record" + "(" + "description," + "value," + "timestamp," + "walletName)"
+                    + "VALUES('" + record.getDescription() + "'," + record.getValue() + "," + "DATETIME('now')" + ", '"
+                    + record.getWallet() + "');";
+        } else {
+            sql = "INSERT INTO " + "Record" + "(" + "description," + "value," + "timestamp," + "walletName)"
+                    + "VALUES('" + record.getDescription() + "'," + record.getValue() + "," + "strftime('%Y-%m-%d %H:%M:%S','" + record.getTimestamp() + "')" + ", '"
+                    + record.getWallet() + "');";
+        }
 
         Statement statement = DBConnection.getConnection().createStatement();
         statement.executeUpdate(sql);
@@ -74,7 +88,18 @@ public class RecordTable extends Table {
         DBManager.executeStatement(sql2);
         DBManager.executeStatement(sql3);
     }
-
+    public static void updateRecord(Record record, double value, String description, String walletName, String timestamp)
+            throws SQLException {
+        String sql = "UPDATE Record SET value=" + value + ", description='" + description + "', walletName='"
+                + walletName + "', timestamp=strftime('%Y-%m-%d %H:%M:%S','" + timestamp + "') WHERE recordId=" + record.getId() + ";";
+        double correctValue = record.getValue() * -1;
+        DBManager.executeStatement(sql);
+        String sql2 = "UPDATE Wallet SET balance=balance+" + correctValue + " WHERE name=" + "'" + record.getWallet()
+                + "';";
+        String sql3 = "UPDATE Wallet SET balance=balance+" + value + " WHERE name=" + "'" + walletName + "';";
+        DBManager.executeStatement(sql2);
+        DBManager.executeStatement(sql3);
+    }
     public static void createTable() throws SQLException {
         DBManager.executeStatement("CREATE TABLE IF NOT EXISTS Record (" + "recordId INTEGER PRIMARY KEY,"
                 + "description varchar," + "value double," + "walletName varchar," + "timestamp smalldatetime,"

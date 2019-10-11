@@ -1,6 +1,7 @@
 package gui.operations;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import DBTables.RecordTable;
 import DBTables.WalletTable;
@@ -14,12 +15,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Modality;
@@ -33,6 +30,9 @@ public class RecordOperationHandler {
     static Label valueLabel = new Label("value");
     static TextField valueField = new TextField();
     static Label walletLabel = new Label("wallet");
+    static Label timestampLabel = new Label("timestamp");
+    static DatePicker datePicker = new DatePicker();
+
     static ComboBox<Wallet> walletList = new ComboBox<Wallet>();
 
     static Label delIdLabel = new Label("record id");
@@ -47,6 +47,8 @@ public class RecordOperationHandler {
         operationPane.setPrefSize(300, 150);
         operationPane.setPadding(new Insets(0, 10, 0, 10));
         operationPane.setHgap(15);
+        datePicker.setPromptText("default value is current date");
+        datePicker.autosize();
     }
 
     public static Stage showAddWindow() {
@@ -76,8 +78,10 @@ public class RecordOperationHandler {
         operationPane.add(valueField, 1, 1);
         operationPane.add(walletLabel, 0, 2);
         operationPane.add(walletList, 1, 2);
-        operationPane.add(addButton, 0, 3);
-        operationPane.add(cancelButton, 1, 3);
+        operationPane.add(timestampLabel, 0, 3);
+        operationPane.add(datePicker, 1, 3);
+        operationPane.add(addButton, 0, 4);
+        operationPane.add(cancelButton, 1, 4);
 
         Scene addScene = new Scene(operationPane);
         addWindow.setScene(addScene);
@@ -102,6 +106,7 @@ public class RecordOperationHandler {
             valueField.setText(Double.toString(rec.getValue()));
             fillWalletList();
             walletList.setValue(WalletTable.getWalletByName(rec.getWallet()));
+            datePicker.setValue(LocalDate.of(rec.getYear(), Integer.parseInt(rec.getMonth()), rec.getDay()));
 
             operationPane.add(descriptionLabel, 0, 0);
             operationPane.add(descriptionField, 1, 0);
@@ -109,6 +114,8 @@ public class RecordOperationHandler {
             operationPane.add(valueField, 1, 1);
             operationPane.add(walletLabel, 0, 2);
             operationPane.add(walletList, 1, 2);
+            operationPane.add(timestampLabel, 0, 3);
+            operationPane.add(datePicker, 1, 3);
 
             Scene editRecordScene = new Scene(operationPane);
 
@@ -125,8 +132,8 @@ public class RecordOperationHandler {
                 }
             });
 
-            operationPane.add(confirmButton, 0, 3);
-            operationPane.add(cancelButton, 1, 3);
+            operationPane.add(confirmButton, 0, 4);
+            operationPane.add(cancelButton, 1, 4);
 
             editRecordWindow.setScene(editRecordScene);
             return editRecordWindow;
@@ -155,13 +162,15 @@ public class RecordOperationHandler {
                         valueField.setText(Double.toString(rec.getValue()));
                         fillWalletList();
                         walletList.setValue(WalletTable.getWalletByName(rec.getWallet()));
-
+                        datePicker.setValue(LocalDate.of(rec.getYear(), Integer.parseInt(rec.getMonth()), rec.getDay()));
                         operationPane.add(descriptionLabel, 0, 0);
                         operationPane.add(descriptionField, 1, 0);
                         operationPane.add(valueLabel, 0, 1);
                         operationPane.add(valueField, 1, 1);
                         operationPane.add(walletLabel, 0, 2);
                         operationPane.add(walletList, 1, 2);
+                        operationPane.add(timestampLabel, 0,3);
+                        operationPane.add(datePicker, 0,3);
 
                         Scene editRecordScene = new Scene(operationPane);
 
@@ -179,8 +188,8 @@ public class RecordOperationHandler {
                             }
                         });
 
-                        operationPane.add(confirmButton, 0, 3);
-                        operationPane.add(cancelButton, 1, 3);
+                        operationPane.add(confirmButton, 0, 4);
+                        operationPane.add(cancelButton, 1, 4);
 
                         editRecordWindow.setScene(editRecordScene);
                         editRecordWindow.show();
@@ -309,5 +318,9 @@ public class RecordOperationHandler {
 
     public static ComboBox<Wallet> getWalletList() {
         return walletList;
+    }
+
+    public static DatePicker getSelectedDate() {
+        return datePicker;
     }
 }

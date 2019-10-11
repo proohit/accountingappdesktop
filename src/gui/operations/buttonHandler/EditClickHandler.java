@@ -1,6 +1,7 @@
 package gui.operations.buttonHandler;
 
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 
 import DBTables.RecordTable;
 import data.Record;
@@ -21,10 +22,12 @@ public class EditClickHandler implements EventHandler<ActionEvent> {
 	public void handle(ActionEvent arg0) {
 		try {
 			editRecordWindow.hide();
-			RecordTable.updateRecord(rec, RecordOperationHandler.getValueField(), RecordOperationHandler.getDescriptionField(), RecordOperationHandler.getWalletField());
+			RecordTable.updateRecord(rec, RecordOperationHandler.getValueField(), RecordOperationHandler.getDescriptionField(), RecordOperationHandler.getWalletField(),
+					RecordOperationHandler.getSelectedDate().getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			Ui.records.refreshForMonth(rec.getYear() + "-" + rec.getMonth());
 			Ui.wallets.refreshAll();
 			Ui.records.getSelectionModel().clearSelection();
+			Ui.months.refreshAll();
 			RecordOperationHandler.getWalletList().getItems().clear();
 		} catch (SQLException e) {
 			e.printStackTrace();
