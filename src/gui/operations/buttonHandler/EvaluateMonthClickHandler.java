@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -39,10 +40,17 @@ public class EvaluateMonthClickHandler implements EventHandler {
                 return;
             }
             List<Record> result = RecordTable.getEvaluationOfMonth(AnalyticsOperationHandler.getMonthSelection());
-            result.forEach((record) -> evalTable.getItems().add(record));
+            result.forEach((record) -> {evalTable.getItems().add(record);});
 
             screen.getChildren().add(evalTable);
-            screen.getChildren().add(new Label(Double.toString(RecordTable.getSumOfMonth(AnalyticsOperationHandler.getMonthSelection()))));
+            double monthlySum = RecordTable.getSumOfMonth(AnalyticsOperationHandler.getMonthSelection());
+            Label sumLabel = new Label("total difference: " + Double.toString(monthlySum));
+            if(monthlySum>0) {
+                sumLabel.setStyle("-fx-background-color: greenyellow");
+            }else {
+                sumLabel.setStyle("-fx-background-color: red");
+            }
+            screen.getChildren().add(sumLabel);
         } catch (SQLException e) {
             e.printStackTrace();
         }
