@@ -8,6 +8,7 @@ import DBTables.RecordTable;
 import DBTables.WalletTable;
 import gui.Ui;
 import gui.operations.buttonHandler.SearchSettingsClickHandler;
+import gui.settings.SearchSettings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
@@ -27,6 +28,20 @@ public class DatabaseBox extends MenuBar {
         Stage stage = (Stage) this.getScene().getWindow();
         this.setStyle("-fx-padding: 10,0,0,10;");
 
+        Menu settingsMenu = new Menu("Settings");
+		CheckMenuItem globalSearch = new CheckMenuItem("globalSearch");
+		globalSearch.setSelected(SearchSettings.isGlobalSearch());
+		MenuItem searchHeader = new MenuItem("Search settings");
+		searchHeader.setStyle("-fx-text-fill: grey;");
+		searchHeader.setDisable(true);
+		globalSearch.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				SearchSettings.setGlobalSearch(globalSearch.isSelected());
+			}
+		});
+		settingsMenu.getItems().add(globalSearch);
+		settingsMenu.getItems().add(searchHeader);
         Menu fileMenu = new Menu("File");
         MenuItem newDatabase = new MenuItem("new database...");
         newDatabase.setOnAction(new EventHandler<ActionEvent>() {
@@ -205,9 +220,8 @@ public class DatabaseBox extends MenuBar {
 
         fileMenu.getItems().addAll(newDatabase, openDatabase);
         this.getMenus().add(fileMenu);
-
+this.getMenus().add(settingsMenu);
 //        this.getChildren().add(newDatabase);
 //        this.getChildren().add(openDatabase);
-        this.getChildren().add(settings);
     }
 }
