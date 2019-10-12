@@ -73,7 +73,7 @@ public class Configurator {
     public boolean isDefault(String path) {
         String value = getValue("defaultDb");
         if (value == null) return false;
-        return !value.equals(path);
+        return value.equals(path);
     }
 
     public boolean isGlobalSearch() {
