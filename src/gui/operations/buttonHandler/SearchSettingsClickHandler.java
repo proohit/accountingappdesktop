@@ -52,7 +52,6 @@ public class SearchSettingsClickHandler implements EventHandler<ActionEvent> {
 
             @Override
             public void handle(ActionEvent arg0) {
-                SearchSettings.setGlobalSearch(globalSearchCheckBox.isSelected());
                 Ui.configurator.writeEntry("defaultDb=" + filePath.getText());
                 settingsWindow.hide();
             }

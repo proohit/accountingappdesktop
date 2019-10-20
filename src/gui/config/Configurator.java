@@ -77,7 +77,7 @@ public class Configurator {
     }
 
     public boolean isGlobalSearch() {
-        String value = getValue("isGlobalSearch");
+        String value = getValue("globalSearch");
         if(value==null) return false;
         return value.equals("true");
     }
